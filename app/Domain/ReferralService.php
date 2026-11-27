@@ -110,6 +110,13 @@ final class ReferralService
     public static function accept(User $u, Referral $r): Referral
     {
         if ($r->status === 'sent') {
+            // Check authority to accept BEFORE the implicit sent -> received step, so a refused attempt changes nothing.
+            $probe = $r->replicate();
+            $probe->id = $r->id;
+            $probe->status = 'received';
+            if (! StatusMachine::may($u, $probe, 'accepted')) {
+                throw new AuthorizationException('You may not make this change.');
+            }
             self::markReceived($u, $r);
         }
         self::move($r, 'accepted', $u, set: ['accepted_at' => now()]);

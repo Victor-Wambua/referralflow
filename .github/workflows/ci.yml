@@ -1,8 +1,6 @@
 # CI for ReferralFlow (synthetic data only; APP_ENV=local so the production guard does not trip).
 name: ci
 on: [push, pull_request]
-env:
-  APP_ENV: local
 jobs:
   php:
     runs-on: ubuntu-latest
@@ -13,6 +11,7 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: '22', cache: npm }
       - run: composer install --no-interaction --prefer-dist
+        env: { APP_ENV: local }
       - run: npm ci && npm run build
       - run: cp .env.example .env && php artisan key:generate
       - run: ./vendor/bin/pint --test
@@ -30,6 +29,7 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: '22', cache: npm }
       - run: composer install --no-interaction --prefer-dist --no-dev
+        env: { APP_ENV: local }
       - run: npm ci && npm run build
       - run: cp .env.example .env && php artisan key:generate
       - run: cd e2e && npm ci && npx playwright install --with-deps chromium && node run.mjs

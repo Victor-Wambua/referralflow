@@ -109,6 +109,10 @@ if (wiz) {
     $('#stale-yes')?.addEventListener('click', () => { $('#stale_confirmed').value = '1'; staleDlg.close(); });
     $('#stale-no')?.addEventListener('click', () => { $$('input[name=receiving_facility_id]', wiz).forEach((r) => (r.checked = false)); staleDlg.close(); });
 
+    const rt = $('#reason_text');
+    const rc = $('#reason-count');
+    if (rt && rc) { const up = () => { rc.textContent = `${rt.value.length}/240`; }; rt.addEventListener('input', up); up(); }
+
     // include-note toggle
     const inc = $('#include_note');
     const noteBox = $('#note-box');

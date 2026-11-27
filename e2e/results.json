@@ -1,7 +1,7 @@
 {
- "ran_at": "2026-11-27T12:42:49.069Z",
- "pass": 54,
- "fail": 1,
+ "ran_at": "2026-11-27T12:43:26.579Z",
+ "pass": 55,
+ "fail": 0,
  "total": 55,
  "results": [
   {
@@ -231,8 +231,8 @@
   },
   {
    "name": "mobile: interactive controls are at least 40px tall",
-   "ok": false,
-   "detail": "INPUT#.:24 INPUT#.:24"
+   "ok": true,
+   "detail": ""
   },
   {
    "name": "mobile: directory fits",
@@ -267,7 +267,7 @@
   {
    "name": "service worker registers and caches the offline shell",
    "ok": true,
-   "detail": "[\"/manifest.webmanifest\",\"/mark.svg\",\"/offline\",\"/build/assets/app-B3kmzohB.css\",\"/build/assets/app-z5icXqdB.js\"]"
+   "detail": "[\"/manifest.webmanifest\",\"/mark.svg\",\"/offline\",\"/build/assets/app-Cw3loZgO.css\",\"/build/assets/app-CQ3RFXZF.js\"]"
   },
   {
    "name": "service worker caches no authenticated page",

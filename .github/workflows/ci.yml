@@ -1,0 +1,36 @@
+# CI for ReferralFlow. This workflow is NOT pushed anywhere: the repository is local only.
+name: ci
+on: [push, pull_request]
+jobs:
+  php:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with: { php-version: '8.4', extensions: 'sodium, gd, pdo_sqlite, mbstring, pcov', coverage: pcov }
+      - uses: actions/setup-node@v4
+        with: { node-version: '22', cache: npm }
+      - run: composer install --no-interaction --prefer-dist
+      - run: npm ci && npm run build
+      - run: cp .env.example .env && php artisan key:generate
+      - run: ./vendor/bin/pint --test
+      - run: ./vendor/bin/phpstan analyse --memory-limit=1G --no-progress
+      - run: ./vendor/bin/pest --coverage --min=0
+      - run: composer audit
+      - run: npm audit
+  e2e:
+    runs-on: ubuntu-latest
+    needs: php
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with: { php-version: '8.4', extensions: 'sodium, gd, pdo_sqlite, mbstring' }
+      - uses: actions/setup-node@v4
+        with: { node-version: '22', cache: npm }
+      - run: composer install --no-interaction --prefer-dist --no-dev
+      - run: npm ci && npm run build
+      - run: cp .env.example .env && php artisan key:generate
+      - run: cd e2e && npm ci && npx playwright install --with-deps chromium && node run.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: e2e-screenshots, path: docs/screenshots }

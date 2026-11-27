@@ -56,13 +56,13 @@
     <h2 tabindex="-1">{{ __('2. Priority and reason') }}</h2>
     <fieldset style="border:0;padding:0;margin:0 0 18px"><legend style="font-weight:650;margin-bottom:6px">{{ __('Priority') }}</legend>
     <div class="seg" role="radiogroup">
-        @foreach(['emergency' => 'Emergency', 'urgent' => 'Urgent', 'routine' => 'Routine'] as $k => $l)
-        <label class="opt"><input type="radio" name="priority" value="{{ $k }}" data-label="{{ __($l) }}" @checked(old('priority', 'routine')===$k)><span><b>{{ __($l) }}</b></span></label>
+        @foreach(['routine' => ['Routine', 'Within weeks'], 'urgent' => ['Urgent', 'Within 24 hours'], 'emergency' => ['Emergency', 'Now. Call ahead.']] as $k => [$l, $h])
+        <label class="opt"><input type="radio" name="priority" value="{{ $k }}" data-label="{{ __($l) }}" @checked(old('priority', 'routine')===$k)><span><b>{{ __($l) }}</b><span class="hint" style="display:block">{{ __($h) }}</span></span></label>
         @endforeach
     </div>
     @error('priority')<div class="err" role="alert">{{ $message }}</div>@enderror</fieldset>
     <div class="field"><label for="reason_code">{{ __('Reason category') }}</label><select id="reason_code" name="reason_code" data-need="text" data-msg="{{ __('Choose a reason category.') }}"><option value="">{{ __('Choose') }}</option>@foreach(config('referralflow.reason_codes') as $k => $l)<option value="{{ $k }}" @selected(old('reason_code')===$k)>{{ __($l) }}</option>@endforeach</select>@error('reason_code')<div class="err" role="alert">{{ $message }}</div>@enderror</div>
-    <div class="field"><label for="reason_text">{{ __('Reason in one line (up to 240 characters)') }}</label><textarea id="reason_text" name="reason_text" maxlength="240" style="min-height:80px" data-need="text" data-msg="{{ __('Write the reason in one line.') }}">{{ old('reason_text') }}</textarea><div class="hint">{{ __('Do not write names or ID numbers here.') }}</div>@error('reason_text')<div class="err" role="alert">{{ $message }}</div>@enderror</div>
+    <div class="field"><label for="reason_text">{{ __('Reason in one line (up to 240 characters)') }}</label><textarea id="reason_text" name="reason_text" maxlength="240" style="min-height:80px" data-need="text" data-msg="{{ __('Write the reason in one line.') }}">{{ old('reason_text') }}</textarea><div class="hint">{{ __('Do not write names or ID numbers here.') }} <span id="reason-count" aria-live="off">0/240</span></div>@error('reason_text')<div class="err" role="alert">{{ $message }}</div>@enderror</div>
     <label class="opt"><input type="checkbox" id="include_note" name="include_note" value="1" @checked(old('include_note'))><span><b>{{ __('Include a clinical note') }}</b><span class="hint" style="display:block">{{ __('Only shared with the receiving facility after they accept. Stored encrypted.') }}</span></span></label>
     <div class="field" id="note-box"><label for="clinical_note">{{ __('Clinical note') }}</label><textarea id="clinical_note" name="clinical_note" maxlength="4000">{{ old('clinical_note') }}</textarea>@error('clinical_note')<div class="err" role="alert">{{ $message }}</div>@enderror</div>
     @if($schema)

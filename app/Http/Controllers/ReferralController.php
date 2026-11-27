@@ -222,6 +222,7 @@ class ReferralController extends Controller
 
     public function decline(Request $request, string $id)
     {
+        $this->mayMove($request, $id, 'declined');
         $d = $request->validate(['reason' => ['required', Rule::in(array_keys(config('referralflow.decline_reasons')))], 'note' => ['nullable', 'string', 'max:500']]);
         ReferralService::decline($request->user(), $this->mine($request, $id), $d['reason'], $d['note'] ?? null);
 
@@ -230,6 +231,7 @@ class ReferralController extends Controller
 
     public function schedule(Request $request, string $id)
     {
+        $this->mayMove($request, $id, 'scheduled');
         $d = $request->validate(['appointment_at' => ['required', 'date']]);
         ReferralService::schedule($request->user(), $this->mine($request, $id), \Illuminate\Support\Carbon::parse($d['appointment_at']));
 
@@ -245,6 +247,7 @@ class ReferralController extends Controller
 
     public function complete(Request $request, string $id)
     {
+        $this->mayMove($request, $id, 'completed');
         $d = $request->validate(['outcome' => ['required', Rule::in(array_keys(config('referralflow.outcomes')))], 'summary' => ['required', 'string', 'max:4000'], 'follow_up' => ['nullable', 'string', 'max:2000']]);
         ReferralService::complete($request->user(), $this->mine($request, $id), $d['outcome'], $d['summary'], $d['follow_up'] ?? null);
 
@@ -253,6 +256,7 @@ class ReferralController extends Controller
 
     public function cancel(Request $request, string $id)
     {
+        $this->mayMove($request, $id, 'cancelled');
         $d = $request->validate(['reason' => ['required', Rule::in(array_keys(config('referralflow.cancel_reasons')))], 'note' => ['nullable', 'string', 'max:500']]);
         ReferralService::cancel($request->user(), $this->mine($request, $id), $d['reason'], $d['note'] ?? null);
 
@@ -276,11 +280,11 @@ class ReferralController extends Controller
 
     public function reveal(Request $request, string $id)
     {
-        $d = $request->validate(['reason' => ['required', Rule::in(array_keys(config('referralflow.reveal_reasons')))]]);
         [$r, $level] = $this->locate($request, $id);
         if (! in_array($level, [ReferralAccess::FULL, ReferralAccess::BREAKGLASS], true) || ! $r->patient_id) {
             throw new AuthorizationException('Identity is not shared at this stage.');
         }
+        $d = $request->validate(['reason' => ['required', Rule::in(array_keys(config('referralflow.reveal_reasons')))]]);
         $request->session()->put('reveal.'.$r->id, time() + (int) config('referralflow.reveal_minutes') * 60);
         AuditLog::record('patient.reveal', 'referral', $r->id, ['level' => $level], $d['reason'], $level === ReferralAccess::BREAKGLASS ? 'break_glass' : null);
 
@@ -296,8 +300,12 @@ class ReferralController extends Controller
 
     public function upload(Request $request, string $id)
     {
+        $r = $this->mine($request, $id);
+        if (ReferralAccess::side($request->user(), $r) !== 'referrer') {
+            throw new AuthorizationException('Documents can be added by the referring facility.');
+        }
         $request->validate(['document' => ['required', 'file']]);
-        AttachmentService::store($request->user(), $this->mine($request, $id), $request->file('document'));
+        AttachmentService::store($request->user(), $r, $request->file('document'));
 
         return $this->done($id, __('Document added.'));
     }
@@ -338,6 +346,26 @@ class ReferralController extends Controller
         }
 
         return [$r, $level];
+    }
+
+    /** Authorise a status move BEFORE validating input, so unauthorised callers learn nothing about the form. */
+    private function mayMove(Request $request, string $id, string $to): Referral
+    {
+        $r = $this->mine($request, $id);
+        $probe = $r;
+        if ($to === 'accepted' && $r->status === 'sent') {
+            $probe = $r->replicate();
+            $probe->id = $r->id;
+            $probe->status = 'received';
+        }
+        if (! StatusMachine::may($request->user(), $probe, $to)) {
+            // an illegal move for the current status is a 409 (handled elsewhere); a role/side problem is a 403
+            if (StatusMachine::isLegal($probe->status, $to) || $to === 'accepted') {
+                throw new AuthorizationException('You may not make this change.');
+            }
+        }
+
+        return $r;
     }
 
     private function mine(Request $request, string $id): Referral

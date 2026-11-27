@@ -1,0 +1,67 @@
+openapi: 3.0.3
+info:
+  title: ReferralFlow JSON endpoints (synthetic demonstration, staging only)
+  version: 0.1.0
+  description: >
+    Session-authenticated (cookie) endpoints. MFA is required for every user. FHIR output is FHIR-shaped and not
+    validated against any national system; no access to national systems exists or is claimed.
+servers:
+  - url: http://localhost:4461
+paths:
+  /health:
+    get:
+      summary: Health check (public, no patient data)
+      responses:
+        '200': { description: ok, content: { application/json: { schema: { $ref: '#/components/schemas/Health' } } } }
+        '503': { description: database unavailable }
+  /api/v1/directory:
+    get:
+      summary: Facility snapshot for the offline draft picker
+      security: [{ session: [] }]
+      responses:
+        '200': { description: facilities, content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/FacilitySnapshot' } } } } }
+        '401': { description: signed out }
+        '429': { description: rate limited }
+  /api/v1/referrals/{id}/fhir:
+    get:
+      summary: FHIR-shaped bundle for a referral the caller may see
+      security: [{ session: [] }]
+      parameters: [{ $ref: '#/components/parameters/ReferralId' }]
+      responses:
+        '200':
+          description: Bundle (collection). Header X-Interop-Notice repeats the unvalidated label.
+          headers: { X-Interop-Notice: { schema: { type: string } } }
+          content: { application/fhir+json: { schema: { $ref: '#/components/schemas/Bundle' } } }
+        '403': { description: role or access level does not allow export }
+        '404': { description: referral not visible to caller }
+  /api/v1/referrals/{id}/documents/{doc}:
+    get:
+      summary: Download a decrypted document (audited)
+      security: [{ session: [] }]
+      parameters:
+        - { $ref: '#/components/parameters/ReferralId' }
+        - { name: doc, in: path, required: true, schema: { type: string, pattern: '^[0-9a-z]{26}$' } }
+      responses:
+        '200': { description: file, content: { application/pdf: {}, image/jpeg: {}, image/png: {} } }
+        '403': { description: documents are shared after acceptance }
+        '404': { description: not found or not visible }
+components:
+  securitySchemes:
+    session: { type: apiKey, in: cookie, name: referralflow-session }
+  parameters:
+    ReferralId: { name: id, in: path, required: true, schema: { type: string, pattern: '^[0-9a-z]{26}$' } }
+  schemas:
+    Health:
+      type: object
+      properties: { status: { type: string }, database: { type: string }, mode: { type: string }, synthetic_data_only: { type: boolean } }
+    FacilitySnapshot:
+      type: object
+      properties: { id: { type: integer }, name: { type: string }, type: { type: string }, phone: { type: string, nullable: true }, state: { type: string, enum: [verified, due, stale, unverified] } }
+    Bundle:
+      type: object
+      required: [resourceType, type, entry, meta]
+      properties:
+        resourceType: { type: string, enum: [Bundle] }
+        type: { type: string, enum: [collection] }
+        meta: { type: object }
+        entry: { type: array, items: { type: object, properties: { fullUrl: { type: string }, resource: { type: object } } } }

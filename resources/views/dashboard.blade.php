@@ -7,7 +7,7 @@ $pct = fn ($v) => $v === null ? '—' : round($v * 100).'%';
 $mins = fn ($v) => $v === null ? '—' : ($v >= 120 ? round($v / 60, 1).' h' : round($v).' min');
 @endphp
 <div class="top"><div><h1>{{ __('Dashboard') }}</h1><div class="mute">{{ __('Showing') }} {{ __($scopeLabel) }} · {{ $m['from'] }} → {{ $m['to'] }}</div></div>
-<form method="get" class="filter" style="margin:0"><div class="field"><label for="days" class="sr">{{ __('Period') }}</label><select id="days" name="days" onchange="this.form.submit()">@foreach([7,30,90,365] as $d)<option value="{{ $d }}" @selected($days===$d)>{{ $d }} {{ __('days') }}</option>@endforeach</select><noscript><button class="btn sm">{{ __('Apply') }}</button></noscript></div></form></div>
+<form method="get" class="filter" style="margin:0"><div class="field"><label for="days" class="sr">{{ __('Period') }}</label><select id="days" name="days" data-autosubmit>@foreach([7,30,90,365] as $d)<option value="{{ $d }}" @selected($days===$d)>{{ $d }} {{ __('days') }}</option>@endforeach</select><noscript><button class="btn sm">{{ __('Apply') }}</button></noscript></div></form></div>
 <div class="banner info"><div>{{ __('Computed from referral records in this system. Aggregates only: no patient identifiers. Small groups are hidden.') }}</div></div>
 <div class="grid g4 keep2">
 <div class="stat"><b>{{ $o['created'] }}</b><span>{{ __('Created') }}</span></div>

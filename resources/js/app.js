@@ -183,3 +183,9 @@ if (offApp) {
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
     addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));
 }
+
+// Auto-submit filter selects (inline handlers are blocked by the CSP)
+document.addEventListener("change", (e) => {
+  const t = e.target;
+  if (t && t.matches && t.matches("[data-autosubmit]") && t.form) { t.form.submit(); }
+});

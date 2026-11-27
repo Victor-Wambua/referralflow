@@ -7,11 +7,14 @@ const SHELL = ['/offline', '/mark.svg', '/manifest.webmanifest'];
 self.addEventListener('install', (event) => {
   event.waitUntil((async () => {
     const cache = await caches.open(VERSION);
-    await cache.addAll(SHELL);
+    // credentials are omitted so these background fetches never touch the user's session (a session-bound
+    // fetch of /offline would otherwise become the "previous URL" that Laravel's back() redirects to).
+    const anon = (u) => new Request(u, { credentials: 'omit', cache: 'no-store' });
+    await Promise.all(SHELL.map((u) => cache.add(anon(u))));
     try {
-      const html = await (await fetch('/offline', { cache: 'no-store' })).text();
+      const html = await (await fetch(anon('/offline'))).text();
       const assets = [...html.matchAll(/(?:href|src)="([^"]*\/build\/assets\/[^"]+)"/g)].map((m) => m[1]);
-      await Promise.all(assets.map((u) => cache.add(u)));
+      await Promise.all(assets.map((u) => cache.add(anon(u))));
     } catch (e) { /* offline during install: shell without assets */ }
     self.skipWaiting();
   })());

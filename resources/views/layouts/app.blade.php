@@ -14,6 +14,7 @@
 </aside>
 <div>
 <main id="main" class="main">
+    <div class="strip" aria-label="{{ __('Session') }}"><span class="pill p-ok" id="online-pill" data-on="{{ __('Online') }}" data-off="{{ __('Offline') }}">{{ __('Online') }}</span><span class="pill p-brand">{{ __('MFA verified') }}</span><span>{{ __('Session') }} {{ config('referralflow.session.idle_minutes') }} {{ __('min') }}</span></div>
     <div id="offline-banner" class="banner warn" hidden role="status"><div>{{ __('You are offline.') }} <a href="{{ route('offline') }}">{{ __('Patient details cannot be saved offline. You can prepare a draft without patient details.') }}</a></div></div>
     @if(session('status'))<div class="banner ok" role="status"><div>{{ session('status') }}</div></div>@endif
     @if($errors->has('status'))<div class="banner bad" role="alert"><div>{{ $errors->first('status') }}</div></div>@endif

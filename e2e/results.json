@@ -1,0 +1,283 @@
+{
+ "ran_at": "2026-11-27T12:42:49.069Z",
+ "pass": 54,
+ "fail": 1,
+ "total": 55,
+ "results": [
+  {
+   "name": "login page renders with synthetic banner",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "wrong password shows one generic error",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "wrong MFA code rejected",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "MFA-unverified session cannot reach the app",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "clinician signs in with MFA and lands on Home",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "wizard step 1 validates required fields before continuing",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "stale destination triggers the confirm-by-phone dialog",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "declining the phone confirmation unselects the stale facility",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "review step lists what will be shared",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "send without consent is refused by the server",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "referral sent with consent recorded",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "patient identity is masked by default",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "no patient data in URL or title",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "reveal shows identity after a reason is given",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "hide masks identity again",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "own access log records the reveal",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "coordinator lands on Inbox",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "inbox shows the new emergency referral",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "receiver sees only the minimum before accepting",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "accepting unlocks the clinical note",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "appointment scheduled",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "marked as patient attended",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "referral completed with feedback summary",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "history lists every status in order",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "coordinator dashboard shows aggregates and the caution banner",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "referrer sees Completed with the counter-referral summary",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "decline without a reason is refused",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "decline recorded with reason",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "referrer sees the decline reason",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "declined referral appears under Needs attention",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "outsider gets the locked page (403) with no content",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "break-glass needs a substantive reason",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "break-glass opens a flagged read-only view",
+   "ok": true,
+   "detail": "Reveal identity"
+  },
+  {
+   "name": "facility lead sees the grant to review",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "lead review recorded",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "facility admin cannot open patient referrals",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "audit chain verifies",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "audit shows break-glass entries flagged",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "retention page carries the counsel banner",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "platform admin has no clinical access",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "analyst lands on aggregate dashboard with no patient identifiers",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "small facility cells are suppressed in the comparison",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "analyst cannot open referrals",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "mobile: home has no horizontal overflow and a bottom tab bar",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "mobile: new referral wizard fits the screen",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "mobile: interactive controls are at least 40px tall",
+   "ok": false,
+   "detail": "INPUT#.:24 INPUT#.:24"
+  },
+  {
+   "name": "mobile: directory fits",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "mobile: referral list fits",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "tablet: inbox fits",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "tablet: dashboard fits",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "mobile: dashboard tables scroll inside their container, page does not",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "dark mode renders",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "service worker registers and caches the offline shell",
+   "ok": true,
+   "detail": "[\"/manifest.webmanifest\",\"/mark.svg\",\"/offline\",\"/build/assets/app-B3kmzohB.css\",\"/build/assets/app-z5icXqdB.js\"]"
+  },
+  {
+   "name": "service worker caches no authenticated page",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "no browser console errors or uncaught exceptions",
+   "ok": true,
+   "detail": ""
+  }
+ ]
+}

@@ -33,12 +33,12 @@ class AuthController extends Controller
         if (! $user || ! $user->isActive() || ($user->locked_until && $user->locked_until->isFuture())) {
             AuditLog::record('auth.login_denied', 'user', $user?->id);
 
-            return back()->withErrors($generic)->onlyInput('email');
+            return redirect()->route('login')->withErrors($generic)->onlyInput('email');
         }
         if (! $ok) {
             $this->fail($user);
 
-            return back()->withErrors($generic)->onlyInput('email');
+            return redirect()->route('login')->withErrors($generic)->onlyInput('email');
         }
         $user->forceFill(['failed_logins' => 0])->save();
         Auth::login($user);

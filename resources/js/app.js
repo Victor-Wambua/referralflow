@@ -153,7 +153,8 @@ if (wiz) {
 // connectivity banner
 const off = $('#offline-banner');
 if (off) {
-    const sync = () => { off.hidden = navigator.onLine; };
+    const pill = $('#online-pill');
+    const sync = () => { off.hidden = navigator.onLine; if (pill) { pill.textContent = navigator.onLine ? pill.dataset.on || pill.textContent : pill.dataset.off || pill.textContent; pill.className = 'pill ' + (navigator.onLine ? 'p-ok' : 'p-warn'); } };
     addEventListener('online', sync); addEventListener('offline', sync); sync();
 }
 

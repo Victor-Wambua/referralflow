@@ -6,6 +6,7 @@ $steps = ['created','sent','received','accepted','scheduled','attended','complet
 $idx = array_search($v['status'], $steps);
 $terminalBad = in_array($v['status'], ['declined','cancelled']);
 @endphp
+<a class="back" href="{{ route('referrals') }}">‹ {{ __('Referrals') }}</a>
 <div class="top">
     <div><h1>{{ $v['ref'] }}</h1><div class="mute">{{ $v['from'] }} → {{ $v['to'] }}</div></div>
     <div class="chip-row"><x-prio :p="$v['priority']"/><x-status :s="$v['status']"/><span class="tag-syn">{{ __('Synthetic') }}</span></div>

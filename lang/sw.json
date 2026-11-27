@@ -564,5 +564,9 @@
  "Role updated.": "Wadhifa umesasishwa.",
  "Account updated.": "Akaunti imesasishwa.",
  "MFA reset. They will set it up again at next sign-in.": "Uthibitisho wa hatua mbili umewekwa upya. Wataweka tena wakati wa kuingia mara ijayo.",
- "Password reset.": "Nenosiri limewekwa upya."
+ "Password reset.": "Nenosiri limewekwa upya.",
+ "Online": "Mtandaoni",
+ "MFA verified": "Hatua mbili imethibitishwa",
+ "Session": "Kikao",
+ "min": "dak"
 }

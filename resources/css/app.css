@@ -142,3 +142,6 @@ dialog::backdrop{background:rgba(10,14,22,.6)}
 .opt input{margin-top:2px}
 .cardlink{display:block;text-decoration:none;color:inherit}
 @media (max-width:900px){.kv{grid-template-columns:1fr}.kv dt{margin-top:6px}.btn-row .btn{flex:1 1 100%}.row{flex-wrap:wrap}}
+[hidden]{display:none!important}
+.strip{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px;font-size:.85rem;color:var(--ink-2)}
+.back{display:inline-block;margin-bottom:6px}

@@ -32,7 +32,7 @@ $mins = fn ($v) => $v === null ? '—' : ($v >= 120 ? round($v / 60, 1).' h' : r
 </div>
 <div class="card"><h2>{{ __('Receiving facilities') }}</h2>
 <div class="banner warn"><div><b>{{ __('Read with care.') }}</b> {{ __('Differences reflect case mix, capacity and distance as much as performance. Groups under') }} {{ $m['min_cell'] }} {{ __('are hidden. Listed alphabetically, not ranked.') }}</div></div>
-<div class="tw"><table><thead><tr><th>{{ __('Facility') }}</th><th>{{ __('Referrals received') }}</th><th>{{ __('Accepted of decided') }}</th><th>{{ __('Median time to decision') }}</th><th>{{ __('Completed of closed') }}</th><th>{{ __('Pending') }}</th></tr></thead><tbody>
+<div class="tw" role="region" tabindex="0" aria-label="{{ __('Receiving facilities') }}"><table><thead><tr><th>{{ __('Facility') }}</th><th>{{ __('Referrals received') }}</th><th>{{ __('Accepted of decided') }}</th><th>{{ __('Median time to decision') }}</th><th>{{ __('Completed of closed') }}</th><th>{{ __('Pending') }}</th></tr></thead><tbody>
 @forelse($m['facilities'] as $f)
 <tr><td>{{ $f['facility'] }}</td>@if($f['suppressed'])<td>&lt; {{ $m['min_cell'] }}</td><td colspan="4" class="mute">{{ __('Hidden: too few referrals') }}</td>@else<td>{{ $f['received_n'] }}</td><td>{{ $pct($f['acceptance_rate']) }}</td><td>{{ $mins($f['median_decision_minutes']) }}</td><td>{{ $pct($f['completion_rate']) }}</td><td>{{ $f['pending'] }}</td>@endif</tr>
 @empty<tr><td colspan="6" class="mute">{{ __('No data.') }}</td></tr>@endforelse

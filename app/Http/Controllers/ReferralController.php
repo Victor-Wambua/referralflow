@@ -187,6 +187,7 @@ class ReferralController extends Controller
 
         return view('referrals.show', [
             'v' => $view,
+            'sent_at' => $r->sent_at,
             'tab' => $tab,
             'messages' => $messages,
             'actions' => StatusMachine::available($user, $r),

@@ -8,14 +8,14 @@ $terminalBad = in_array($v['status'], ['declined','cancelled']);
 @endphp
 <a class="back" href="{{ route('referrals') }}">‹ {{ __('Referrals') }}</a>
 <div class="top">
-    <div><h1>{{ $v['ref'] }}</h1><div class="mute">{{ $v['from'] }} → {{ $v['to'] }}</div></div>
+    <div><h1>{{ $v['ref'] }}</h1><div class="mute">{{ $v['from'] }} → {{ $v['to'] }}</div>@if($sent_at)<div class="mute">{{ __('Sent') }} <time datetime="{{ $sent_at->toIso8601String() }}" title="{{ $sent_at->format('Y-m-d H:i') }} UTC">{{ $sent_at->diffForHumans() }}</time> · {{ $sent_at->format('Y-m-d H:i') }} UTC</div>@endif</div>
     <div class="chip-row"><x-prio :p="$v['priority']"/><x-status :s="$v['status']"/><span class="tag-syn">{{ __('Synthetic') }}</span></div>
 </div>
 
 @if($v['level']==='breakglass')<div class="banner bad" role="alert"><div><b>{{ __('Emergency access: read only') }}</b> {{ __('This view is flagged and reviewed. Access ends') }} {{ $grant?->expires_at?->format('H:i') }}.</div></div>@endif
 @if($v['tombstone'])<div class="banner info"><div>{{ __('Sharing for this referral has stopped.') }}</div></div>@endif
 @if($v['minimal'])<div class="banner info"><div>{{ __('You see the minimum until you accept: priority, reason, sex and age. Identity, note and documents are shared after you accept.') }}</div></div>@endif
-@if($v['overdue'] && in_array($v['status'], ['sent','received']))<div class="banner warn"><div><b>{{ __('No response yet.') }}</b> {{ __('Consider phoning the facility, or referring elsewhere.') }}</div></div>@endif
+@if($v['overdue'] && in_array($v['status'], ['sent','received']))<div class="banner warn" role="status"><div>@if($v['side']==='receiver')<b>{{ __('Waiting for your response.') }}</b> {{ __('This referral has been open longer than expected. Accept or decline so the referring facility can plan.') }}@else<b>{{ __('No response yet.') }}</b> {{ __('Consider phoning the facility, or referring elsewhere.') }}@endif</div></div>@endif
 @if($v['info_pending'])<div class="banner warn"><div>{{ __('More information was requested on this referral.') }} <a href="{{ route('referrals.show', [$v['id'], 'tab' => 'messages']) }}">{{ __('Open messages') }}</a></div></div>@endif
 @if($v['consent'])<div class="banner {{ $v['consent']['withdrawn'] ? 'bad' : 'ok' }}"><div>@if($v['consent']['withdrawn']){{ __('Consent withdrawn') }} {{ $v['consent']['withdrawn']->diffForHumans() }}.@else{{ __('Consent recorded') }}: {{ __($v['consent']['basis']) }} · {{ $v['consent']['at']->toDateString() }}@endif</div></div>@endif
 

@@ -571,5 +571,8 @@
  "min": "dak",
  "Within weeks": "Ndani ya wiki chache",
  "Within 24 hours": "Ndani ya saa 24",
- "Now. Call ahead.": "Sasa. Piga simu mapema."
+ "Now. Call ahead.": "Sasa. Piga simu mapema.",
+ "Waiting for your response.": "Inasubiri jibu lako.",
+ "This referral has been open longer than expected. Accept or decline so the referring facility can plan.": "Rufaa hii imekaa wazi kuliko ilivyotarajiwa. Kubali au kataa ili kituo kilichotuma rufaa kiweze kupanga.",
+ "Filter facilities": "Chuja vituo"
 }

@@ -60,14 +60,15 @@ if (wiz) {
     const steps = $$('.step', wiz);
     const bars = $$('#stepbar i');
     let cur = 0;
+    let shown = false;
     const show = (i) => {
         cur = Math.max(0, Math.min(steps.length - 1, i));
         steps.forEach((s, k) => { s.hidden = k !== cur; });
         bars.forEach((b, k) => b.classList.toggle('on', k <= cur));
         $('#step-label').textContent = `${wiz.dataset.stepWord} ${cur + 1} / ${steps.length}`;
-        steps[cur].querySelector('h2')?.focus?.();
+        if (shown) { steps[cur].querySelector('h2')?.focus?.({ preventScroll: true }); window.scrollTo({ top: 0 }); }
         live($('#step-label').textContent);
-        window.scrollTo({ top: 0 });
+        shown = true;
     };
     const valid = () => {
         let ok = true;
@@ -189,3 +190,16 @@ document.addEventListener("change", (e) => {
   const t = e.target;
   if (t && t.matches && t.matches("[data-autosubmit]") && t.form) { t.form.submit(); }
 });
+
+// Receiving-facility filter on the new-referral wizard (hides non-matching options only)
+const facFilter = $('#fac-filter');
+if (facFilter) {
+    const opts = $$('.fac-opt');
+    const none = $('#fac-none');
+    facFilter.addEventListener('input', () => {
+        const q = facFilter.value.trim().toLowerCase();
+        let n = 0;
+        opts.forEach((o) => { const hit = !q || o.textContent.toLowerCase().includes(q); o.hidden = !hit; if (hit) n++; });
+        none.hidden = n > 0;
+    });
+}

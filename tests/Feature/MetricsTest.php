@@ -189,7 +189,9 @@ it('escalates unacknowledged referrals at the SLA thresholds, once per level, an
     ReferralService::accept($coord, $routine->fresh());
     expect(EscalationService::run(now()->addDays(3)))->toBe(0);
     // overdue banner appears for the referrer
-    signedIn($this, $clin)->get("/referrals/{$r->id}")->assertSee('No response yet');
+    signedIn($this, $clin)->get("/referrals/{$r->id}")->assertSee('No response yet')->assertSee('Sent ');
+    // the receiving side is told to respond, not to phone itself
+    signedIn($this, $coord)->get("/referrals/{$r->id}")->assertSee('Waiting for your response.')->assertDontSee('No response yet');
     $this->artisan('referrals:escalate')->assertSuccessful();
     Carbon::setTestNow();
 });

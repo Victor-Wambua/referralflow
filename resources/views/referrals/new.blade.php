@@ -91,9 +91,11 @@
     <div data-need="radio" data-name="receiving_facility_id" data-msg="{{ __('Choose a facility.') }}"></div>
     @error('receiving_facility_id')<div class="err" role="alert">{{ $message }}</div>@enderror
     @error('stale_confirmed')<div class="err" role="alert">{{ $message }}</div>@enderror
+    <div class="field"><label for="fac-filter">{{ __('Filter facilities') }}</label><input id="fac-filter" type="search" autocomplete="off"></div>
+    <p class="hint" id="fac-none" hidden>{{ __('No facilities match.') }}</p>
     @foreach($facilities as $f)
     @php($st = $f->verificationState())
-    <label class="opt"><input type="radio" name="receiving_facility_id" value="{{ $f->id }}" data-name="{{ $f->name }}" data-phone="{{ $f->phone }}" data-state="{{ $st }}" @checked(old('receiving_facility_id')==$f->id)>
+    <label class="opt fac-opt"><input type="radio" name="receiving_facility_id" value="{{ $f->id }}" data-name="{{ $f->name }}" data-phone="{{ $f->phone }}" data-state="{{ $st }}" @checked(old('receiving_facility_id')==$f->id)>
         <span><b>{{ $f->name }}</b> <x-vpill :state="$st" :at="$f->info_verified_at"/><br><small>{{ __(ucfirst(str_replace('_',' ',$f->type))) }} · {{ $f->county }} · {{ $f->hours }}</small><br><small>{{ $f->services->where('available', true)->pluck('name')->take(6)->join(', ') }}</small></span></label>
     @endforeach
     <div class="sticky-act"><button class="btn quiet" type="button" data-prev>{{ __('Back') }}</button><button class="btn" type="button" data-next id="to-review">{{ __('Review') }}</button></div>

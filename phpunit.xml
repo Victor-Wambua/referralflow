@@ -21,6 +21,13 @@
         <env name="APP_ENV" value="testing"/>
         <env name="APP_MAINTENANCE_DRIVER" value="file"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
+        <env name="HASH_DRIVER" value="argon2id"/>
+        <env name="ARGON_MEMORY" value="1024"/>
+        <env name="ARGON_TIME" value="1"/>
+        <env name="APP_CIPHER" value="AES-256-GCM"/>
+        <env name="APP_KEY" value="base64:Gu91eVaDwzQwUtP2zCZ/egZyWWRj2Kmtc1vjdwhSZZA="/>
+        <env name="REFERRALFLOW_MODE" value="staging"/>
+        <env name="MAIL_MAILER" value="array"/>
         <env name="BROADCAST_CONNECTION" value="null"/>
         <env name="CACHE_STORE" value="array"/>
         <env name="DB_CONNECTION" value="sqlite"/>

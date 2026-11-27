@@ -145,7 +145,9 @@ class DemoSeeder extends Seeder
                     Consent::query()->create(['referral_id' => $r->id, 'patient_id' => $patient->id, 'recorded_by' => $creator->id, 'shared_with_facility_id' => $to->id, 'basis' => ['written', 'verbal_witnessed', 'guardian'][mt_rand(0, 2)], 'includes_clinical_note' => $incl, 'wording_version' => 'v1-draft-counsel-review-pending', 'recorded_at' => $t]);
                 }
                 $cur = 'sent';
-                $step = fn (int $lo, int $hi) => $t = $t->copy()->addMinutes(mt_rand($lo, $hi));
+                $step = function (int $lo, int $hi) use (&$t): void {
+                    $t = $t->copy()->addMinutes(mt_rand($lo, $hi));
+                };
                 $ackMax = ['emergency' => 25, 'urgent' => 200, 'routine' => 1800][$prio];
                 if (in_array($status, ['received', 'accepted', 'scheduled', 'attended', 'completed'])) {
                     $step(1, $ackMax);

@@ -59,6 +59,8 @@ final class RetentionService
                         return;
                     }
                     $out['referrals']++;
+                    $out['messages'] += Message::query()->withoutGlobalScopes()->where('referral_id', $r->id)->count();
+                    $out['attachments'] += Attachment::query()->withoutGlobalScopes()->where('referral_id', $r->id)->whereNull('purged_at')->count();
                     if (! $dryRun) {
                         self::anonymiseReferral($r);
                         AuditLog::record('retention.purge_referral', 'referral', $r->id);

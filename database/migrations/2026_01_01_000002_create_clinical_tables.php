@@ -29,7 +29,7 @@ return new class extends Migration
             $t->foreignId('referring_facility_id')->constrained('facilities');
             $t->foreignId('receiving_facility_id')->constrained('facilities');
             $t->foreignId('created_by')->constrained('users');
-            $t->foreignId('patient_id')->nullable()->constrained('patients');
+            $t->foreignId('patient_id')->nullable()->constrained('patients')->nullOnDelete();
             $t->foreignId('form_schema_id')->nullable()->constrained('referral_form_schemas');
             $t->string('priority', 12);
             $t->string('reason_code', 32);
@@ -69,7 +69,7 @@ return new class extends Migration
         Schema::create('consents', function (Blueprint $t) {
             $t->id();
             $t->foreignUlid('referral_id')->unique()->constrained('referrals')->cascadeOnDelete();
-            $t->foreignId('patient_id')->nullable()->constrained('patients');
+            $t->foreignId('patient_id')->nullable()->constrained('patients')->nullOnDelete();
             $t->foreignId('recorded_by')->constrained('users');
             $t->foreignId('shared_with_facility_id')->constrained('facilities');
             $t->string('basis', 32);
@@ -160,7 +160,7 @@ return new class extends Migration
         Schema::create('legal_holds', function (Blueprint $t) {
             $t->id();
             $t->foreignUlid('referral_id')->nullable()->constrained('referrals');
-            $t->foreignId('patient_id')->nullable()->constrained('patients');
+            $t->foreignId('patient_id')->nullable()->constrained('patients')->nullOnDelete();
             $t->string('reason', 500);
             $t->foreignId('placed_by')->constrained('users');
             $t->timestamp('placed_at');
@@ -172,7 +172,7 @@ return new class extends Migration
         Schema::create('data_requests', function (Blueprint $t) {
             $t->id();
             $t->foreignId('facility_id')->constrained();
-            $t->foreignId('patient_id')->constrained('patients');
+            $t->foreignId('patient_id')->nullable()->constrained('patients')->nullOnDelete();
             $t->string('type', 16); // export | deletion
             $t->foreignId('requested_by')->constrained('users');
             $t->string('status', 16)->default('open'); // open | approved | rejected | completed | blocked

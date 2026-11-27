@@ -263,6 +263,10 @@ final class ReferralService
 
     private static function guard(User $u, Referral $r, string $to): void
     {
+        // Authority first: a viewer without write standing learns nothing about which moves are legal.
+        if (in_array(ReferralAccess::level($u, $r), [ReferralAccess::NONE, ReferralAccess::BREAKGLASS, ReferralAccess::TOMBSTONE], true)) {
+            throw new AuthorizationException('You may not make this change.');
+        }
         if (! StatusMachine::isLegal($r->status, $to)) {
             throw new InvalidTransition("Cannot move a referral from {$r->status} to {$to}.");
         }

@@ -6,6 +6,7 @@ use App\Enums\Role;
 use App\Models\Referral;
 use App\Security\AuditLog;
 use App\Security\TenantContext;
+use Illuminate\Support\Carbon;
 
 /**
  * Unacknowledged referrals escalate; they are never silently changed or auto-cancelled.
@@ -17,7 +18,7 @@ final class EscalationService
 {
     public static function run(?\DateTimeInterface $now = null): int
     {
-        $now = \Illuminate\Support\Carbon::instance($now ?? now());
+        $now = Carbon::instance($now ?? now());
         $count = 0;
         TenantContext::asSystem(function () use ($now, &$count) {
             Referral::query()->whereIn('status', ['sent', 'received'])->whereNotNull('sent_at')->get()->each(function (Referral $r) use ($now, &$count) {

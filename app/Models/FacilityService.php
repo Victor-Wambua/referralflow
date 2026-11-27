@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Directory\Verification;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -9,16 +10,16 @@ class FacilityService extends Model
 {
     protected $guarded = [];
 
-    protected function casts(): array
-    {
-        return ['available' => 'boolean', 'verified_at' => 'datetime'];
-    }
+    /** @var array<string, string> */
+    protected $casts = ['available' => 'boolean', 'verified_at' => 'datetime'];
 
+    /** @return BelongsTo<Facility, $this> */
     public function facility(): BelongsTo
     {
         return $this->belongsTo(Facility::class);
     }
 
+    /** @return BelongsTo<User, $this> */
     public function verifier(): BelongsTo
     {
         return $this->belongsTo(User::class, 'verified_by');
@@ -26,6 +27,6 @@ class FacilityService extends Model
 
     public function verificationState(): string
     {
-        return \App\Directory\Verification::state($this->verified_at);
+        return Verification::state($this->verified_at);
     }
 }

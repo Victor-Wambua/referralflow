@@ -9,7 +9,8 @@ class SetLocale
 {
     public function handle(Request $request, Closure $next)
     {
-        $loc = $request->user()?->locale ?? $request->session()->get('locale', 'en');
+        $user = $request->user();
+        $loc = $user ? $user->locale : $request->session()->get('locale', 'en');
         app()->setLocale(in_array($loc, ['en', 'sw'], true) ? $loc : 'en');
 
         return $next($request);

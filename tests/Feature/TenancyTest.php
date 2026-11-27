@@ -98,10 +98,12 @@ it('shows each user only what the access level allows over HTTP', function () {
             $res = signedIn($this, $user)->get("/referrals/{$ref->id}");
             if (! str_ends_with($who, '_clin') && ! str_ends_with($who, '_coord')) {
                 $res->assertForbidden();
+
                 continue;
             }
             if ($level === 'none') {
                 $res->assertForbidden()->assertSee('You do not have access to this referral')->assertDontSee('Synthetic reason text');
+
                 continue;
             }
             $res->assertOk();

@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Validator;
 final class DirectoryImporter
 {
     public const COLUMNS = ['mfl_code', 'name', 'facility_type', 'keph_level', 'county', 'sub_county', 'ward', 'ownership', 'operational_status', 'phone', 'email', 'open_hours', 'services'];
+
     public const MAX_ROWS = 5000;
 
     private const TYPE_MAP = [
@@ -57,6 +58,7 @@ final class DirectoryImporter
                 }
                 if (count($row) !== count($header)) {
                     $errors[] = ['line' => $line, 'message' => 'Wrong number of columns'];
+
                     continue;
                 }
                 $d = array_combine($header, array_map(fn ($v) => trim((string) $v), $row));
@@ -70,10 +72,12 @@ final class DirectoryImporter
                 ]);
                 if ($v->fails()) {
                     $errors[] = ['line' => $line, 'message' => implode(' ', $v->errors()->all())];
+
                     continue;
                 }
                 if (isset($seen[$d['mfl_code']])) {
                     $errors[] = ['line' => $line, 'message' => 'Duplicate code in file: '.$d['mfl_code']];
+
                     continue;
                 }
                 $seen[$d['mfl_code']] = true;

@@ -7,12 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class FormSchema extends Model
 {
     protected $table = 'referral_form_schemas';
+
     protected $guarded = [];
 
-    protected function casts(): array
-    {
-        return ['fields' => 'array', 'activated_at' => 'datetime'];
-    }
+    /** @var array<string, string> */
+    protected $casts = ['fields' => 'array', 'activated_at' => 'datetime'];
 
     public static function active(): ?self
     {

@@ -26,6 +26,7 @@ class DemoSeeder extends Seeder
     public const PASSWORD = 'Demo-Passphrase-2026';
 
     private const FIRST = ['Amina', 'Joseph', 'Grace', 'Peter', 'Faith', 'Samuel', 'Mercy', 'Daniel', 'Esther', 'Brian', 'Lucy', 'Kevin', 'Naomi', 'Hassan', 'Zawadi', 'Otieno', 'Wanjiru', 'Kamau', 'Achieng', 'Musa'];
+
     private const LAST = ['Wekesa', 'Otieno', 'Njeri', 'Mwangi', 'Akinyi', 'Kiptoo', 'Mutiso', 'Odhiambo', 'Chebet', 'Barasa', 'Wafula', 'Hussein', 'Nyambura', 'Karanja', 'Atieno'];
 
     public function run(): void
@@ -184,7 +185,7 @@ class DemoSeeder extends Seeder
                     $mv('sent', 'declined', $recv, $reason, $t->copy());
                 }
                 if ($status === 'cancelled') {
-                    $viaReceiver = mt_rand(0, 2) === 0 && isset($set['sent_at']);
+                    $viaReceiver = mt_rand(0, 2) === 0;
                     $step(30, 60 * 48);
                     $reason = $viaReceiver ? 'patient_did_not_attend' : $canc[mt_rand(0, count($canc) - 1)];
                     $set += ['cancelled_at' => $t->copy(), 'terminal_reason' => $reason, 'terminal_side' => $viaReceiver ? 'receiver' : 'referrer'];

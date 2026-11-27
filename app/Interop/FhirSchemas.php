@@ -16,14 +16,14 @@ final class FhirSchemas
         if (! $type || ! is_file($file)) {
             return ['Unknown resourceType'];
         }
-        $validator = new Validator();
+        $validator = new Validator;
         $validator->resolver()->registerFile('urn:referralflow:schema:common', __DIR__.'/schemas/common.json');
         $data = json_decode(json_encode($resource));
         $result = $validator->validate($data, json_decode((string) file_get_contents($file)));
         if ($result->isValid()) {
             return [];
         }
-        $fmt = (new ErrorFormatter())->format($result->error(), false);
+        $fmt = (new ErrorFormatter)->format($result->error(), false);
 
         return array_map(fn ($k, $v) => "$type: $k: ".(is_array($v) ? implode('; ', $v) : $v), array_keys($fmt), $fmt);
     }

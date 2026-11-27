@@ -8,6 +8,7 @@ use Illuminate\Console\Command;
 class Escalate extends Command
 {
     protected $signature = 'referrals:escalate';
+
     protected $description = 'Escalate referrals that have not been acknowledged within their SLA';
 
     public function handle(): int

@@ -3,8 +3,10 @@
 use App\Enums\Role;
 use App\Models\AuditEntry;
 use App\Security\Totp;
+use Illuminate\Contracts\Http\Kernel;
+use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
+use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\RateLimiter;
 
 function login(object $t, $u, string $pw = 'Correct-Horse-1234')
 {
@@ -64,7 +66,7 @@ it('accepts a recovery code once only', function () {
 });
 
 it('locks an account after repeated failures and uses one generic message', function () {
-    $this->withoutMiddleware(Illuminate\Routing\Middleware\ThrottleRequests::class);
+    $this->withoutMiddleware(ThrottleRequests::class);
     $u = user(Role::Clinician);
     $unknown = login($this, (object) ['email' => 'nobody@test.invalid'], 'x');
     $generic = 'Sign-in failed. Check your details, or the account may be locked.';
@@ -141,7 +143,7 @@ it('rejects suspended accounts and POSTs without a CSRF token', function () {
 
 it('protects every state-changing route with CSRF verification', function () {
     $router = app('router');
-    expect(app(Illuminate\Contracts\Http\Kernel::class)->getMiddlewareGroups()['web'])->toContain(Illuminate\Foundation\Http\Middleware\PreventRequestForgery::class);
+    expect(app(Kernel::class)->getMiddlewareGroups()['web'])->toContain(PreventRequestForgery::class);
     $n = 0;
     foreach ($router->getRoutes() as $route) {
         if (array_intersect($route->methods(), ['POST', 'PUT', 'PATCH', 'DELETE'])) {

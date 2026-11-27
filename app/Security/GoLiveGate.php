@@ -2,6 +2,8 @@
 
 namespace App\Security;
 
+use App\Domain\VirusScanner;
+
 /**
  * Prerequisites before ANY real patient-data pilot. Legal and organisational items are always "unmet"
  * here: this software cannot satisfy them. Technical items are evaluated from the live configuration.
@@ -16,7 +18,7 @@ final class GoLiveGate
             ['tech.cipher', 'Security', 'Field encryption uses AES-256-GCM', strtoupper((string) config('app.cipher')) === 'AES-256-GCM', 'config app.cipher'],
             ['tech.hash', 'Security', 'Passwords hashed with Argon2id', config('hashing.driver') === 'argon2id', 'config hashing.driver'],
             ['tech.session', 'Security', 'Session cookie is Secure and session data encrypted', (bool) config('session.secure') && (bool) config('session.encrypt'), 'config session.secure / session.encrypt'],
-            ['tech.av', 'Security', 'Antivirus scanner bound and AV_MODE=required', config('referralflow.uploads.av_mode') === 'required' && app()->bound(\App\Domain\VirusScanner::class) && ! (app(\App\Domain\VirusScanner::class) instanceof \App\Domain\NullScanner), 'config referralflow.uploads.av_mode and container binding'],
+            ['tech.av', 'Security', 'Antivirus scanner bound and AV_MODE=required', config('referralflow.uploads.av_mode') === 'required' && app(VirusScanner::class)->isOperational(), 'config referralflow.uploads.av_mode and container binding'],
             ['tech.db', 'Operations', 'Production database is PostgreSQL with encrypted volumes', config('database.default') === 'pgsql', 'config database.default (volume encryption must be confirmed by the host)'],
         ];
         $org = [

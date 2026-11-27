@@ -9,6 +9,7 @@ use Illuminate\Console\Command;
 class DemoTotp extends Command
 {
     protected $signature = 'demo:totp {email}';
+
     protected $description = 'Print the current TOTP code for a SYNTHETIC demo user (local/testing environments only)';
 
     public function handle(): int

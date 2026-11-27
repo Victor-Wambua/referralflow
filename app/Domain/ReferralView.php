@@ -7,6 +7,7 @@ use App\Models\Referral;
 use App\Models\User;
 use App\Security\Masker;
 use App\Security\ReferralAccess;
+use Illuminate\Support\Carbon;
 
 /**
  * The only thing Blade sees for a referral. Fields are filtered by access level here, so templates cannot
@@ -62,7 +63,7 @@ final class ReferralView
                 'id_type' => $p->identifier_type,
                 'revealed' => $revealed,
                 'name' => $revealed ? $p->full_name : null,
-                'dob' => $revealed ? \Illuminate\Support\Carbon::parse($p->date_of_birth)->toDateString() : null,
+                'dob' => $revealed ? Carbon::parse($p->date_of_birth)->toDateString() : null,
                 'identifier' => $revealed ? $p->identifier : null,
             ];
             $v['can_reveal'] = $u->isClinical();

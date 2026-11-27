@@ -8,6 +8,7 @@ use App\Interop\FhirExporter;
 use App\Interop\FhirSchemas;
 use App\Models\Facility;
 use App\Models\FacilityService;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
@@ -103,7 +104,7 @@ it('shares only the minimum before acceptance: no name, birth date, identifier, 
     $this->assertStringNotContainsString('Synthetic Person', json_encode($b));
     $this->assertStringNotContainsString('Synthetic clinical note', json_encode($b));
     // outsiders and tombstoned views cannot export
-    expect(fn () => FhirExporter::bundle(user(Role::Clinician), $r))->toThrow(Illuminate\Auth\Access\AuthorizationException::class);
+    expect(fn () => FhirExporter::bundle(user(Role::Clinician), $r))->toThrow(AuthorizationException::class);
     signedIn($this, user(Role::Clinician))->get("/api/v1/referrals/{$r->id}/fhir")->assertNotFound();
 });
 

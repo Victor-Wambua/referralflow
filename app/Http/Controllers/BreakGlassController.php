@@ -6,6 +6,7 @@ use App\Domain\Notifier;
 use App\Enums\Role;
 use App\Models\BreakGlassGrant;
 use App\Models\Referral;
+use App\Models\User;
 use App\Security\AuditLog;
 use App\Security\TenantContext;
 use Illuminate\Http\Request;
@@ -42,7 +43,7 @@ class BreakGlassController extends Controller
         $u = $request->user();
         $q = BreakGlassGrant::query()->with(['user:id,name,facility_id,email', 'referral:id'])->orderByDesc('id');
         if ($u->role === Role::FacilityAdmin) {
-            $q->whereIn('user_id', \App\Models\User::query()->where('facility_id', $u->facility_id)->select('id'));
+            $q->whereIn('user_id', User::query()->where('facility_id', $u->facility_id)->select('id'));
         }
 
         return view('admin.breakglass', ['items' => $q->limit(100)->get()]);

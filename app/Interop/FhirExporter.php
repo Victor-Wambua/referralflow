@@ -2,11 +2,12 @@
 
 namespace App\Interop;
 
-use App\Domain\AttachmentService;
 use App\Models\Facility;
 use App\Models\Referral;
 use App\Models\User;
 use App\Security\ReferralAccess;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Support\Carbon;
 
 /**
  * FHIR R4-SHAPED export. Not validated against any national HIE or FHIR server; no access to national
@@ -16,17 +17,20 @@ use App\Security\ReferralAccess;
 final class FhirExporter
 {
     public const NOTICE = 'FHIR-shaped, not validated against any national HIE; no access to national systems exists or is claimed';
+
     public const LABEL_SYSTEM = 'urn:referralflow:label';
 
     private const SR_STATUS = ['created' => 'draft', 'sent' => 'active', 'received' => 'active', 'accepted' => 'active', 'scheduled' => 'active', 'attended' => 'active', 'completed' => 'completed', 'declined' => 'revoked', 'cancelled' => 'revoked'];
+
     private const TASK_STATUS = ['created' => 'draft', 'sent' => 'requested', 'received' => 'received', 'accepted' => 'accepted', 'scheduled' => 'ready', 'attended' => 'in-progress', 'completed' => 'completed', 'declined' => 'rejected', 'cancelled' => 'cancelled'];
+
     private const PRIORITY = ['emergency' => 'stat', 'urgent' => 'urgent', 'routine' => 'routine'];
 
     public static function bundle(User $u, Referral $r): array
     {
         $level = ReferralAccess::level($u, $r);
         if ($level === ReferralAccess::NONE || $level === ReferralAccess::TOMBSTONE) {
-            throw new \Illuminate\Auth\Access\AuthorizationException('No export access.');
+            throw new AuthorizationException('No export access.');
         }
         $full = in_array($level, [ReferralAccess::FULL, ReferralAccess::BREAKGLASS], true);
         $entries = [];
@@ -49,7 +53,7 @@ final class FhirExporter
             $pat = ['resourceType' => 'Patient', 'id' => (string) $p->id, 'gender' => self::gender($p->sex), 'active' => true];
             if ($full) {
                 $pat['name'] = [['text' => $p->full_name]];
-                $pat['birthDate'] = \Illuminate\Support\Carbon::parse($p->date_of_birth)->toDateString();
+                $pat['birthDate'] = Carbon::parse($p->date_of_birth)->toDateString();
                 if ($p->identifier) {
                     $pat['identifier'] = [['system' => 'urn:referralflow:patient-identifier:'.$p->identifier_type, 'value' => $p->identifier]];
                 }

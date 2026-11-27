@@ -8,6 +8,7 @@ use Illuminate\Console\Command;
 class VerifyAudit extends Command
 {
     protected $signature = 'audit:verify';
+
     protected $description = 'Verify the audit log hash chain';
 
     public function handle(): int

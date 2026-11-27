@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Directory\Verification;
 use App\Models\Facility;
 use App\Models\FacilityReport;
 use App\Models\FacilityService;

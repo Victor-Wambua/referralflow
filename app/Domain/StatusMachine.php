@@ -14,6 +14,7 @@ use App\Security\ReferralAccess;
 final class StatusMachine
 {
     private const CLIN = [Role::Clinician, Role::Coordinator];
+
     private const COORD = [Role::Coordinator];
 
     /** @return array<string, array<string, array{side:string|array, roles:array}>> */

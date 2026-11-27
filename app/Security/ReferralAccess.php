@@ -19,9 +19,13 @@ use Illuminate\Database\Eloquent\Builder;
 final class ReferralAccess
 {
     public const NONE = 'none';
+
     public const MINIMAL = 'minimal';
+
     public const FULL = 'full';
+
     public const TOMBSTONE = 'tombstone';
+
     public const BREAKGLASS = 'breakglass';
 
     public static function constrain(Builder $q): void

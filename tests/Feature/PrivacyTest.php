@@ -1,12 +1,15 @@
 <?php
 
 use App\Domain\AttachmentService;
+use App\Domain\Notifier;
 use App\Domain\ReferralService;
 use App\Enums\Role;
 use App\Mail\NeutralNoticeMail;
 use App\Models\AuditEntry;
+use App\Models\Patient;
 use App\Models\Referral;
 use App\Models\UserNotice;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -78,7 +81,7 @@ it('stores clinical fields and identifiers as AES-256-GCM ciphertext in the raw 
     // blind indexes are keyed hashes, not the identifier
     expect(DB::table('patients')->value('identifier_hash'))->toMatch('/^[0-9a-f]{64}$/')->not->toBe(hash('sha256', IDV));
     // and it round-trips through the model
-    expect(App\Models\Patient::query()->withoutGlobalScopes()->find($this->patient->id)->full_name)->toBe(NAME);
+    expect(Patient::query()->withoutGlobalScopes()->find($this->patient->id)->full_name)->toBe(NAME);
 });
 
 it('stores uploaded documents encrypted on the private disk', function () {
@@ -92,7 +95,7 @@ it('detects tampering with a ciphertext column (authenticated encryption)', func
     $p = json_decode(base64_decode($raw), true);
     $p['value'] = base64_encode(str_repeat('A', 12));
     DB::table('patients')->where('id', $this->patient->id)->update(['full_name' => base64_encode(json_encode($p))]);
-    expect(fn () => App\Models\Patient::query()->withoutGlobalScopes()->find($this->patient->id)->full_name)->toThrow(Illuminate\Contracts\Encryption\DecryptException::class);
+    expect(fn () => Patient::query()->withoutGlobalScopes()->find($this->patient->id)->full_name)->toThrow(DecryptException::class);
 });
 
 it('masks identity by default everywhere and reveals only with a reason, logged', function () {
@@ -163,7 +166,7 @@ it('sends notifications and emails with no patient or clinical content', functio
         foreach ([NAME, IDV, REASON, NOTE, MSG, 'Quokka', 'Origin HC', 'Destination Hospital'] as $s) {
             expect($n->text)->not->toContain($s);
         }
-        expect($n->text)->toBe(App\Domain\Notifier::TEXT[$n->kind]);
+        expect($n->text)->toBe(Notifier::TEXT[$n->kind]);
     }
     signedIn($this, $this->clin)->get('/notifications')->assertOk()->assertDontSee('Zebedee')->assertDontSee('Quokka');
 });

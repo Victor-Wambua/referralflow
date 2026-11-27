@@ -8,6 +8,7 @@ use App\Models\Facility;
 use App\Models\User;
 use App\Security\AuditLog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -71,7 +72,7 @@ class UserController extends Controller
         $this->authorizeTarget($request->user(), $user);
         abort_if($user->id === $request->user()->id, 403);
         $user->forceFill(['status' => $user->status === 'active' ? 'suspended' : 'active'])->save();
-        \Illuminate\Support\Facades\DB::table('sessions')->where('user_id', $user->id)->delete();
+        DB::table('sessions')->where('user_id', $user->id)->delete();
         AuditLog::record($user->status === 'active' ? 'user.reactivate' : 'user.suspend', 'user', $user->id);
 
         return back()->with('status', __('Account updated.'));
@@ -81,7 +82,7 @@ class UserController extends Controller
     {
         $this->authorizeTarget($request->user(), $user);
         $user->forceFill(['mfa_secret' => null, 'mfa_enabled_at' => null, 'mfa_last_step' => null, 'mfa_recovery_codes' => null])->save();
-        \Illuminate\Support\Facades\DB::table('sessions')->where('user_id', $user->id)->delete();
+        DB::table('sessions')->where('user_id', $user->id)->delete();
         AuditLog::record('user.mfa_reset', 'user', $user->id);
 
         return back()->with('status', __('MFA reset. They will set it up again at next sign-in.'));
@@ -92,7 +93,7 @@ class UserController extends Controller
         $this->authorizeTarget($request->user(), $user);
         $temp = Str::password(16, symbols: false).'a1A';
         $user->forceFill(['password' => $temp, 'must_change_password' => true, 'failed_logins' => 0, 'locked_until' => null])->save();
-        \Illuminate\Support\Facades\DB::table('sessions')->where('user_id', $user->id)->delete();
+        DB::table('sessions')->where('user_id', $user->id)->delete();
         AuditLog::record('user.password_reset', 'user', $user->id);
 
         return back()->with('status', __('Password reset.'))->with('temp_password', $temp)->with('temp_for', $user->email);

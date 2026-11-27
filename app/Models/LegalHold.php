@@ -8,8 +8,6 @@ class LegalHold extends Model
 {
     protected $guarded = [];
 
-    protected function casts(): array
-    {
-        return ['placed_at' => 'datetime', 'released_at' => 'datetime'];
-    }
+    /** @var array<string, string> */
+    protected $casts = ['placed_at' => 'datetime', 'released_at' => 'datetime'];
 }

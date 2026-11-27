@@ -2,6 +2,4 @@
 
 namespace App\Domain;
 
-class InvalidTransition extends \DomainException
-{
-}
+class InvalidTransition extends \DomainException {}

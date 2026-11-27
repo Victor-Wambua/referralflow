@@ -1,8 +1,11 @@
 <?php
 
+use App\Domain\ReferralService;
 use App\Enums\Role;
+use App\Models\Patient;
 use App\Models\Referral;
 use App\Models\ReferralEvent;
+use Illuminate\Validation\ValidationException;
 
 beforeEach(function () {
     $this->fromF = facility(['name' => 'From HC']);
@@ -97,7 +100,7 @@ it('requires a consent record before send (consent gating)', function () {
     signedIn($this, $this->clin)->post("/referrals/{$r->id}/send", [])->assertSessionHasErrors(['consent_basis', 'consent_confirm']);
     expect($r->fresh()->status)->toBe('created');
     // service-level guard too
-    expect(fn () => App\Domain\ReferralService::send($this->clin, $r, ['confirmed' => false, 'basis' => 'written']))->toThrow(Illuminate\Validation\ValidationException::class);
+    expect(fn () => ReferralService::send($this->clin, $r, ['confirmed' => false, 'basis' => 'written']))->toThrow(ValidationException::class);
 });
 
 it('requires a phone confirmation for stale or unverified destinations', function () {
@@ -125,7 +128,7 @@ it('validates input and enforces the configurable form schema', function () {
 it('flags a second open referral for the same patient and destination', function () {
     $c = signedIn($this, $this->clin);
     $c->post('/referrals', wizardPayload())->assertSessionHasNoErrors();
-    $p = App\Models\Patient::query()->withoutGlobalScopes()->first();
+    $p = Patient::query()->withoutGlobalScopes()->first();
     $c->post('/referrals', wizardPayload(['patient_mode' => 'existing', 'existing_patient_id' => $p->id]))->assertSessionHasErrors('override_reason');
     $c->post('/referrals', wizardPayload(['patient_mode' => 'existing', 'existing_patient_id' => $p->id, 'override_reason' => 'New problem']))->assertSessionHasNoErrors();
     expect(Referral::query()->count())->toBe(2);

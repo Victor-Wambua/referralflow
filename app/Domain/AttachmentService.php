@@ -11,13 +11,14 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 /** Validated, scanned, encrypted-at-rest private documents. Never publicly addressable. */
 final class AttachmentService
 {
     private const MAGIC = [
-        'application/pdf' => "%PDF-",
+        'application/pdf' => '%PDF-',
         'image/jpeg' => "\xFF\xD8\xFF",
         'image/png' => "\x89PNG\r\n\x1a\n",
     ];
@@ -61,7 +62,7 @@ final class AttachmentService
         };
 
         $scanner = app(VirusScanner::class);
-        if ($cfg['av_mode'] === 'required' && $scanner instanceof NullScanner) {
+        if ($cfg['av_mode'] === 'required' && ! $scanner->isOperational()) {
             throw ValidationException::withMessages(['document' => 'Uploads are disabled: no antivirus scanner is configured.']);
         }
         $scan = $scanner->scan($bytes);
@@ -82,7 +83,7 @@ final class AttachmentService
             'scan_status' => $scan,
             'path' => '',
         ]);
-        $a->id = strtolower((string) \Illuminate\Support\Str::ulid());
+        $a->id = strtolower((string) Str::ulid());
         $a->path = 'attachments/'.$a->id.'.enc';
         Storage::disk('local')->put($a->path, Crypt::encryptString(base64_encode($bytes)));
         $a->save();

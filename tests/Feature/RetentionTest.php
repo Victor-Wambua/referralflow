@@ -1,5 +1,6 @@
 <?php
 
+use App\Directory\Verification;
 use App\Domain\AttachmentService;
 use App\Domain\DataRequestService;
 use App\Domain\MetricsService;
@@ -7,15 +8,14 @@ use App\Domain\ReferralService;
 use App\Domain\RetentionService;
 use App\Enums\Role;
 use App\Models\AuditEntry;
-use App\Models\DataRequest;
 use App\Models\LegalHold;
 use App\Models\Message;
 use App\Models\Patient;
 use App\Models\Referral;
 use App\Models\Setting;
 use App\Security\TenantContext;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 beforeEach(function () {
@@ -140,7 +140,7 @@ it('lets the platform admin change validated retention settings, with re-authent
     signedIn($this, $admin)->post('/admin/retention', ['stale_days' => 3] + $ok)->assertSessionHasErrors('stale_days');
     signedIn($this, $admin)->post('/admin/retention', ['draft_days' => 'abc'] + $ok)->assertSessionHasErrors('draft_days');
     signedIn($this, $admin)->post('/admin/retention', $ok)->assertSessionHasNoErrors();
-    expect(RetentionService::days('closed_referral_days'))->toBe(400)->and(App\Directory\Verification::staleDays())->toBe(20);
+    expect(RetentionService::days('closed_referral_days'))->toBe(400)->and(Verification::staleDays())->toBe(20);
     expect(AuditEntry::query()->where('action', 'settings.update')->count())->toBe(1);
     signedIn($this, $admin)->get('/admin/retention')->assertOk()->assertSee('Confirm with counsel');
 });
@@ -197,7 +197,7 @@ it('deletes a patient’s data only when no hold or open referral blocks it', fu
 it('lets only the right people open and reject requests', function () {
     $patient = patientFor($this->clin);
     $this->be($this->clin);
-    expect(fn () => DataRequestService::open($this->coord, $patient, 'export'))->toThrow(Illuminate\Auth\Access\AuthorizationException::class);
+    expect(fn () => DataRequestService::open($this->coord, $patient, 'export'))->toThrow(AuthorizationException::class);
     $req = DataRequestService::open($this->clin, $patient, 'export');
     signedIn($this, $this->adminA)->post("/data-requests/{$req->id}/reject", [])->assertSessionHasErrors('note');
     signedIn($this, $this->adminA)->post("/data-requests/{$req->id}/reject", ['note' => 'Identity not verified'])->assertSessionHasNoErrors();

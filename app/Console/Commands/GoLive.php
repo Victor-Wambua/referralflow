@@ -8,6 +8,7 @@ use Illuminate\Console\Command;
 class GoLive extends Command
 {
     protected $signature = 'golive:gate';
+
     protected $description = 'List unmet prerequisites before ANY real patient-data pilot (exits non-zero while any are unmet)';
 
     public function handle(): int

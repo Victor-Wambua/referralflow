@@ -33,7 +33,7 @@ final class AuditLog
                 'reason' => $reason,
                 'flag' => $flag,
                 'meta' => $meta ? json_encode($meta, JSON_UNESCAPED_SLASHES) : null,
-                'prev_hash' => $last?->hash ?? self::GENESIS,
+                'prev_hash' => $last ? $last->hash : self::GENESIS,
             ];
             $row['hash'] = self::hashRow($row);
 

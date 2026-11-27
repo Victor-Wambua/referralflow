@@ -7,6 +7,7 @@ use App\Domain\VirusScanner;
 use App\Security\ProductionGuard;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 
@@ -23,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
             ProductionGuard::assertBootable();
         }
 
-        $by = fn (Request $r) => ($r->user()?->id ?? 'guest').'|'.$r->ip();
+        $by = fn (Request $r) => (Auth::id() ?? 'guest').'|'.$r->ip();
         $cfg = config('referralflow.rate_limits');
         RateLimiter::for('login', fn (Request $r) => Limit::perMinute($cfg['login'])->by(strtolower((string) $r->input('email')).'|'.$r->ip()));
         RateLimiter::for('mfa', fn (Request $r) => Limit::perMinute($cfg['mfa'])->by($by($r)));

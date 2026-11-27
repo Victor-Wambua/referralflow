@@ -21,6 +21,7 @@ use App\Security\Masker;
 use App\Security\ReferralAccess;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
@@ -141,9 +142,7 @@ class ReferralController extends Controller
                 $payload = $d + ['form_schema_id' => $schema?->id, 'form_data' => $schema ? ($request->input('form') ?: null) : null];
                 $referral = ReferralService::create($user, $patient, $payload);
                 foreach ($request->file('documents', []) as $file) {
-                    if ($file) {
-                        $stored[] = AttachmentService::store($user, $referral, $file)->path;
-                    }
+                    $stored[] = AttachmentService::store($user, $referral, $file)->path;
                 }
                 if ($sending) {
                     $referral = ReferralService::send($user, $referral, ['confirmed' => true, 'basis' => $d['consent_basis'], 'witness' => $request->input('consent_witness')], $d['override_reason'] ?? null, $request->boolean('stale_confirmed'));
@@ -233,7 +232,7 @@ class ReferralController extends Controller
     {
         $this->mayMove($request, $id, 'scheduled');
         $d = $request->validate(['appointment_at' => ['required', 'date']]);
-        ReferralService::schedule($request->user(), $this->mine($request, $id), \Illuminate\Support\Carbon::parse($d['appointment_at']));
+        ReferralService::schedule($request->user(), $this->mine($request, $id), Carbon::parse($d['appointment_at']));
 
         return $this->done($id, __('Appointment saved.'));
     }

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class AuditEntry extends Model
 {
     public $timestamps = false;
+
     protected $guarded = [];
 
     public function metaArray(): array

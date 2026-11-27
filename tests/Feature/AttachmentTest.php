@@ -6,6 +6,8 @@ use App\Domain\ReferralService;
 use App\Domain\VirusScanner;
 use App\Enums\Role;
 use App\Models\Attachment;
+use App\Models\AuditEntry;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
@@ -105,6 +107,11 @@ it('re-encodes images so metadata and appended payloads are dropped', function (
 it('calls the antivirus hook and blocks infected files; required mode refuses without a real scanner', function () {
     app()->bind(VirusScanner::class, fn () => new class implements VirusScanner
     {
+        public function isOperational(): bool
+        {
+            return true;
+        }
+
         public function scan(string $contents): string
         {
             return str_contains($contents, 'EICAR') ? 'infected' : 'clean';
@@ -112,17 +119,17 @@ it('calls the antivirus hook and blocks infected files; required mode refuses wi
     });
     expect(AttachmentService::store($this->clin, $this->ref, upload('ok.pdf', pdf()))->scan_status)->toBe('clean');
     expect(fn () => AttachmentService::store($this->clin, $this->ref, upload('bad.pdf', pdf('EICAR'))))->toThrow(ValidationException::class, 'This file was blocked by the virus scan.');
-    expect(App\Models\AuditEntry::query()->where('action', 'attachment.blocked')->count())->toBe(1);
+    expect(AuditEntry::query()->where('action', 'attachment.blocked')->count())->toBe(1);
     app()->bind(VirusScanner::class, NullScanner::class);
     config(['referralflow.uploads.av_mode' => 'required']);
     expect(fn () => AttachmentService::store($this->clin, $this->ref, upload('ok2.pdf', pdf('x'))))->toThrow(ValidationException::class, 'no antivirus scanner');
 });
 
 it('lets the referring facility upload while open, and nobody else', function () {
-    expect(fn () => AttachmentService::store($this->coord, $this->ref, upload('a.png', png())))->toThrow(Illuminate\Auth\Access\AuthorizationException::class);
-    expect(fn () => AttachmentService::store(user(Role::Clinician), $this->ref, upload('a.png', png())))->toThrow(Illuminate\Auth\Access\AuthorizationException::class);
+    expect(fn () => AttachmentService::store($this->coord, $this->ref, upload('a.png', png())))->toThrow(AuthorizationException::class);
+    expect(fn () => AttachmentService::store(user(Role::Clinician), $this->ref, upload('a.png', png())))->toThrow(AuthorizationException::class);
     ReferralService::cancel($this->clin, $this->ref, 'no_longer_needed');
-    expect(fn () => AttachmentService::store($this->clin, $this->ref->fresh(), upload('a.png', png())))->toThrow(Illuminate\Auth\Access\AuthorizationException::class);
+    expect(fn () => AttachmentService::store($this->clin, $this->ref->fresh(), upload('a.png', png())))->toThrow(AuthorizationException::class);
 });
 
 it('serves documents only to authorised, audited requests: not before acceptance, not to outsiders, never by name', function () {
@@ -138,7 +145,7 @@ it('serves documents only to authorised, audited requests: not before acceptance
     ReferralService::accept($this->coord, $this->ref->fresh());
     $res = signedIn($this, $this->coord)->get($url)->assertOk();
     expect($res->headers->get('Content-Disposition'))->not->toContain('Patient-Name')->and($res->headers->get('Content-Security-Policy'))->toContain('sandbox');
-    expect(App\Models\AuditEntry::query()->where('action', 'attachment.open')->count())->toBe(2);
+    expect(AuditEntry::query()->where('action', 'attachment.open')->count())->toBe(2);
     // no direct public path, no traversal
     signedIn($this, $this->coord)->get("/referrals/{$this->ref->id}/documents/..%2F..%2F.env")->assertNotFound();
     signedIn($this, $this->coord)->get("/referrals/{$this->ref->id}/documents/".str_repeat('0', 26))->assertNotFound();
@@ -146,7 +153,7 @@ it('serves documents only to authorised, audited requests: not before acceptance
 });
 
 it('uploads through the UI with clear errors and rejects it for the receiving side', function () {
-    signedIn($this, $this->clin)->post("/referrals/{$this->ref->id}/documents", ['document' => upload('x.pdf', "not really a pdf")])->assertSessionHasErrors('document');
+    signedIn($this, $this->clin)->post("/referrals/{$this->ref->id}/documents", ['document' => upload('x.pdf', 'not really a pdf')])->assertSessionHasErrors('document');
     signedIn($this, $this->clin)->post("/referrals/{$this->ref->id}/documents", ['document' => upload('x.pdf', pdf())])->assertSessionHasNoErrors();
     signedIn($this, $this->coord)->post("/referrals/{$this->ref->id}/documents", ['document' => upload('y.pdf', pdf())])->assertForbidden();
     signedIn($this, $this->clin)->get("/referrals/{$this->ref->id}")->assertSee('Document 1')->assertSee('Not scanned')->assertDontSee('x.pdf');

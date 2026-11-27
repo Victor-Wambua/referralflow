@@ -12,20 +12,19 @@ class User extends Authenticatable
 
     protected $hidden = ['password', 'remember_token', 'mfa_secret', 'mfa_recovery_codes'];
 
-    protected function casts(): array
-    {
-        return [
-            'password' => 'hashed',
-            'mfa_secret' => 'encrypted',
-            'mfa_recovery_codes' => 'encrypted:array',
-            'mfa_enabled_at' => 'datetime',
-            'locked_until' => 'datetime',
-            'last_login_at' => 'datetime',
-            'must_change_password' => 'boolean',
-            'role' => Role::class,
-        ];
-    }
+    /** @var array<string, string> */
+    protected $casts = [
+        'password' => 'hashed',
+        'mfa_secret' => 'encrypted',
+        'mfa_recovery_codes' => 'encrypted:array',
+        'mfa_enabled_at' => 'datetime',
+        'locked_until' => 'datetime',
+        'last_login_at' => 'datetime',
+        'must_change_password' => 'boolean',
+        'role' => Role::class,
+    ];
 
+    /** @return BelongsTo<Facility, $this> */
     public function facility(): BelongsTo
     {
         return $this->belongsTo(Facility::class);

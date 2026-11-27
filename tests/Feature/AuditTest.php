@@ -1,9 +1,9 @@
 <?php
 
-use App\Domain\ReferralService;
 use App\Enums\Role;
 use App\Models\AuditEntry;
 use App\Security\AuditLog;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 
 beforeEach(function () {
@@ -68,9 +68,9 @@ it('refuses to update or delete audit rows (model guard and database triggers)',
     $e = AuditEntry::query()->first();
     expect(fn () => $e->update(['action' => 'x']))->toThrow(LogicException::class);
     expect(fn () => $e->delete())->toThrow(LogicException::class);
-    expect(fn () => DB::table('audit_entries')->where('id', $e->id)->update(['action' => 'tampered']))->toThrow(Illuminate\Database\QueryException::class);
-    expect(fn () => DB::table('audit_entries')->where('id', $e->id)->delete())->toThrow(Illuminate\Database\QueryException::class);
-    expect(fn () => DB::table('audit_entries')->delete())->toThrow(Illuminate\Database\QueryException::class);
+    expect(fn () => DB::table('audit_entries')->where('id', $e->id)->update(['action' => 'tampered']))->toThrow(QueryException::class);
+    expect(fn () => DB::table('audit_entries')->where('id', $e->id)->delete())->toThrow(QueryException::class);
+    expect(fn () => DB::table('audit_entries')->delete())->toThrow(QueryException::class);
     expect(AuditLog::verify()['ok'])->toBeTrue();
 });
 
@@ -111,7 +111,7 @@ it('is written inside the same transaction as the change it records', function (
     $r = sentReferral($this->clin, $this->B);
     $count = AuditEntry::query()->count();
     try {
-        DB::transaction(function () use ($r) {
+        DB::transaction(function () {
             AuditLog::record('test.rolled_back');
             throw new RuntimeException('abort');
         });

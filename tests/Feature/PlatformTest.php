@@ -1,6 +1,9 @@
 <?php
 
+use App\Domain\Notifier;
 use App\Enums\Role;
+use App\Models\Patient;
+use App\Models\Referral;
 use App\Security\GoLiveGate;
 use App\Security\ProductionGuard;
 use Illuminate\Support\Facades\File;
@@ -55,7 +58,7 @@ it('labels all patients and data as synthetic and refuses patient creation witho
     $payload = ['patient_mode' => 'new', 'full_name' => 'X Y', 'date_of_birth' => '1990-01-01', 'sex' => 'male', 'priority' => 'routine', 'reason_code' => 'other', 'reason_text' => 'r', 'receiving_facility_id' => $t->id, 'action' => 'draft'];
     signedIn($this, $u)->post('/referrals', $payload)->assertSessionHasErrors('synthetic_confirm');
     signedIn($this, $u)->post('/referrals', $payload + ['synthetic_confirm' => '1'])->assertSessionHasNoErrors();
-    expect(App\Models\Patient::query()->withoutGlobalScopes()->first()->is_synthetic)->toBeTrue()->and(App\Models\Referral::query()->first()->is_synthetic)->toBeTrue();
+    expect(Patient::query()->withoutGlobalScopes()->first()->is_synthetic)->toBeTrue()->and(Referral::query()->first()->is_synthetic)->toBeTrue();
 });
 
 it('exposes a health endpoint with no patient data', function () {
@@ -123,7 +126,7 @@ it('also translates controller messages, config lists and notification text', fu
     foreach (['reason_codes', 'decline_reasons', 'cancel_reasons', 'outcomes', 'consent_bases', 'identifier_types', 'reveal_reasons'] as $list) {
         $keys = array_merge($keys, array_values(config("referralflow.$list")));
     }
-    $keys = array_merge($keys, array_values(App\Domain\Notifier::TEXT));
+    $keys = array_merge($keys, array_values(Notifier::TEXT));
     foreach (File::allFiles(app_path('Http/Controllers')) as $f) {
         preg_match_all("/__\('((?:[^'\\\\]|\\\\.)*)'\)/", $f->getContents(), $m);
         $keys = array_merge($keys, array_map('stripslashes', $m[1]));

@@ -8,9 +8,7 @@ use Illuminate\Mail\Mailables\Envelope;
 
 class NeutralNoticeMail extends Mailable
 {
-    public function __construct(public string $link)
-    {
-    }
+    public function __construct(public string $link) {}
 
     public function envelope(): Envelope
     {

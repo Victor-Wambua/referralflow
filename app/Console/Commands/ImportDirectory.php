@@ -8,6 +8,7 @@ use Illuminate\Console\Command;
 class ImportDirectory extends Command
 {
     protected $signature = 'directory:import {file : KMHFL-style CSV (synthetic fixtures only)} {--dry-run}';
+
     protected $description = 'Import facilities from a KMHFL-style CSV (format authored in docs/INTEROPERABILITY.md)';
 
     public function handle(): int

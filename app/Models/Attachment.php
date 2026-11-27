@@ -3,27 +3,19 @@
 namespace App\Models;
 
 use App\Models\Concerns\ScopedByReferral;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
+use Illuminate\Database\Eloquent\Model;
 
 class Attachment extends Model
 {
-    use ScopedByReferral;
     use HasUlids;
+    use ScopedByReferral;
 
     protected $guarded = [];
 
+    /** @var array<string, string> */
+    protected $casts = [
+        'original_name' => 'encrypted',
 
-
-    protected function casts(): array
-    {
-        return [
-            'original_name' => 'encrypted',
-
-
-
-        ];
-    }
-
-
+    ];
 }

@@ -6,12 +6,14 @@ use App\Enums\Role;
 use App\Models\Referral;
 use App\Models\UserNotice;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
     public function home(Request $request)
     {
         $u = $request->user();
+
         return match ($u->role) {
             Role::Coordinator => redirect()->route('inbox'),
             Role::NetworkAnalyst => redirect()->route('dashboard'),
@@ -75,7 +77,7 @@ class HomeController extends Controller
     public function health()
     {
         try {
-            \Illuminate\Support\Facades\DB::select('select 1');
+            DB::select('select 1');
             $db = 'ok';
         } catch (\Throwable) {
             $db = 'error';

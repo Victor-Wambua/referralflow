@@ -9,6 +9,7 @@ use Illuminate\Console\Command;
 class Purge extends Command
 {
     protected $signature = 'retention:purge {--dry-run : Count what would be purged without changing anything}';
+
     protected $description = 'Apply retention settings: remove clinical content from closed referrals past their period (legal holds respected)';
 
     public function handle(): int

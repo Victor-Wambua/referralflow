@@ -42,6 +42,7 @@ final class FormSchemaValidator
             $n = $i + 1;
             if (! is_array($f) || empty($f['key']) || ! preg_match('/^[a-z][a-z0-9_]{0,40}$/', (string) $f['key'])) {
                 $errors[] = "Field $n: key must be lower-case letters, digits and underscores.";
+
                 continue;
             }
             if (isset($keys[$f['key']])) {

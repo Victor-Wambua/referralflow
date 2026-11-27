@@ -2,6 +2,7 @@
 
 use App\Domain\EscalationService;
 use App\Domain\MetricsService;
+use App\Domain\ReferralService;
 use App\Enums\Role;
 use App\Models\AuditEntry;
 use App\Models\Referral;
@@ -41,7 +42,7 @@ function mk(array $a)
     ];
 
     return TenantContext::asSystem(function () use ($row) {
-        $r = new Referral();
+        $r = new Referral;
         $r->forceFill($row);
         $r->save();
 
@@ -185,7 +186,7 @@ it('escalates unacknowledged referrals at the SLA thresholds, once per level, an
     // a responded referral stops escalating
     app('auth')->forgetGuards();
     $this->be($coord);
-    App\Domain\ReferralService::accept($coord, $routine->fresh());
+    ReferralService::accept($coord, $routine->fresh());
     expect(EscalationService::run(now()->addDays(3)))->toBe(0);
     // overdue banner appears for the referrer
     signedIn($this, $clin)->get("/referrals/{$r->id}")->assertSee('No response yet');

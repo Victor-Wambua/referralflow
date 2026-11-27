@@ -5,21 +5,21 @@ namespace App\Models;
 use App\Security\TenantContext;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 class Patient extends Model
 {
     protected $guarded = [];
 
-    protected function casts(): array
-    {
-        return [
-            'full_name' => 'encrypted',
-            'date_of_birth' => 'encrypted',
-            'identifier' => 'encrypted',
-            'is_synthetic' => 'boolean',
-            'anonymised_at' => 'datetime',
-        ];
-    }
+    /** @var array<string, string> */
+    protected $casts = [
+        'full_name' => 'encrypted',
+        'date_of_birth' => 'encrypted',
+        'identifier' => 'encrypted',
+        'is_synthetic' => 'boolean',
+        'anonymised_at' => 'datetime',
+    ];
 
     protected static function booted(): void
     {
@@ -36,7 +36,8 @@ class Patient extends Model
         });
     }
 
-    public function facility()
+    /** @return BelongsTo<Facility, $this> */
+    public function facility(): BelongsTo
     {
         return $this->belongsTo(Facility::class);
     }
@@ -47,6 +48,6 @@ class Patient extends Model
             return null;
         }
 
-        return (int) \Illuminate\Support\Carbon::parse($this->date_of_birth)->diffInYears($on ?? now());
+        return (int) Carbon::parse($this->date_of_birth)->diffInYears($on ?? now());
     }
 }

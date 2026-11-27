@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Security\AuditLog;
 use Closure;
 use Illuminate\Http\Request;
 
@@ -18,7 +19,7 @@ class IdleTimeout
             $last = (int) $s->get('last_activity', $now);
             $started = (int) $s->get('session_started', $now);
             if (($now - $last) > $idle || ($now - $started) > $abs) {
-                \App\Security\AuditLog::record('auth.timeout', 'user', $request->user()->id);
+                AuditLog::record('auth.timeout', 'user', $request->user()->id);
                 auth()->logout();
                 $s->invalidate();
                 $s->regenerateToken();

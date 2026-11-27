@@ -7,10 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class UserNotice extends Model
 {
     protected $table = 'notifications';
+
     protected $guarded = [];
 
-    protected function casts(): array
-    {
-        return ['read_at' => 'datetime'];
-    }
+    /** @var array<string, string> */
+    protected $casts = ['read_at' => 'datetime'];
 }

@@ -9,6 +9,7 @@ use App\Models\Referral;
 use App\Models\User;
 use App\Security\BlindIndex;
 use App\Security\Totp;
+use Database\Seeders\BaselineSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -62,7 +63,7 @@ function patientFor(User $u, array $a = []): Patient
 function activeSchema(): FormSchema
 {
     return FormSchema::query()->firstOrCreate(['key' => 'generic-referral', 'version' => 1], [
-        'name' => 'Generic', 'status' => 'active', 'fields' => Database\Seeders\BaselineSeeder::FIELDS, 'activated_at' => now(),
+        'name' => 'Generic', 'status' => 'active', 'fields' => BaselineSeeder::FIELDS, 'activated_at' => now(),
     ]);
 }
 

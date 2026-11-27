@@ -58,7 +58,7 @@ final class DataRequestService
                 foreach (Referral::query()->where('patient_id', $patientId)->get() as $r) {
                     RetentionService::anonymiseReferral($r);
                 }
-                \App\Models\Patient::query()->withoutGlobalScopes()->whereKey($patientId)->delete();
+                Patient::query()->withoutGlobalScopes()->whereKey($patientId)->delete();
             });
             $req->forceFill(['status' => 'completed', 'decided_by' => $admin->id, 'decided_at' => now(), 'completed_at' => now(), 'decision_note' => $note])->save();
             AuditLog::record('data_request.delete_done', 'data_request', $req->id, [], $note, 'data_request');

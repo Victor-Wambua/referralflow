@@ -11,7 +11,8 @@ class SecurityHeaders
     {
         $response = $next($request);
         $h = $response->headers;
-        $h->set('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; style-src-attr 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'");
+        // A route may set a stricter policy of its own (document downloads use a sandbox policy).
+        $h->has('Content-Security-Policy') || $h->set('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; style-src-attr 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'");
         $h->set('X-Content-Type-Options', 'nosniff');
         $h->set('X-Frame-Options', 'DENY');
         $h->set('Referrer-Policy', 'no-referrer');

@@ -1,0 +1,46 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "urn:referralflow:schema:Location",
+ "type": "object",
+ "required": [
+  "resourceType",
+  "id",
+  "meta",
+  "name",
+  "status",
+  "managingOrganization"
+ ],
+ "properties": {
+  "resourceType": {
+   "const": "Location"
+  },
+  "id": {
+   "$ref": "urn:referralflow:schema:common#/$defs/Id"
+  },
+  "meta": {
+   "$ref": "urn:referralflow:schema:common#/$defs/Meta"
+  },
+  "name": {
+   "type": "string",
+   "minLength": 1
+  },
+  "status": {
+   "enum": [
+    "active",
+    "suspended",
+    "inactive"
+   ]
+  },
+  "managingOrganization": {
+   "$ref": "urn:referralflow:schema:common#/$defs/Reference"
+  },
+  "address": {
+   "type": "object",
+   "properties": {
+    "country": {
+     "const": "KE"
+    }
+   }
+  }
+ }
+}

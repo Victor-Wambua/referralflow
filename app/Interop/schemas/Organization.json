@@ -1,0 +1,41 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "urn:referralflow:schema:Organization",
+ "type": "object",
+ "required": [
+  "resourceType",
+  "id",
+  "meta",
+  "name",
+  "active"
+ ],
+ "properties": {
+  "resourceType": {
+   "const": "Organization"
+  },
+  "id": {
+   "$ref": "urn:referralflow:schema:common#/$defs/Id"
+  },
+  "meta": {
+   "$ref": "urn:referralflow:schema:common#/$defs/Meta"
+  },
+  "name": {
+   "type": "string",
+   "minLength": 1
+  },
+  "active": {
+   "type": "boolean"
+  },
+  "identifier": {
+   "type": "array",
+   "minItems": 0,
+   "items": {
+    "type": "object",
+    "required": [
+     "system",
+     "value"
+    ]
+   }
+  }
+ }
+}

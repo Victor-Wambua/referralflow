@@ -1,0 +1,46 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "urn:referralflow:schema:Bundle",
+ "type": "object",
+ "required": [
+  "resourceType",
+  "type",
+  "entry",
+  "meta"
+ ],
+ "properties": {
+  "resourceType": {
+   "const": "Bundle"
+  },
+  "type": {
+   "enum": [
+    "collection",
+    "document",
+    "transaction",
+    "searchset"
+   ]
+  },
+  "meta": {
+   "$ref": "urn:referralflow:schema:common#/$defs/Meta"
+  },
+  "entry": {
+   "type": "array",
+   "minItems": 1,
+   "items": {
+    "type": "object",
+    "required": [
+     "fullUrl",
+     "resource"
+    ],
+    "properties": {
+     "resource": {
+      "type": "object",
+      "required": [
+       "resourceType"
+      ]
+     }
+    }
+   }
+  }
+ }
+}

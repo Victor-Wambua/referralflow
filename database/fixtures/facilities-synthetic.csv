@@ -1,0 +1,11 @@
+mfl_code,name,facility_type,keph_level,county,sub_county,ward,ownership,operational_status,phone,email,open_hours,services
+900001,Mto Mkuu Health Centre,Health Centre,3,Synthetic County A,Mto North,Mto Ward,Public,Operational,+254700000001,mtomkuu@example.invalid,Mon-Fri 08:00-17:00,Outpatient|Maternity|Laboratory
+900002,Ziwani Sub-County Hospital,Sub-County Hospital,4,Synthetic County A,Ziwani,Ziwani Ward,Public,Operational,+254700000002,ziwani@example.invalid,24 hours,Emergency|Surgery|Maternity|Radiology|Paediatrics
+900003,Mlima Mission Dispensary,Dispensary,2,Synthetic County A,Mlima,Mlima Ward,Faith-based,Operational,+254700000003,mlima@example.invalid,Mon-Sat 08:00-16:00,Outpatient|Immunisation
+900004,Bonde County Referral Hospital,County Referral Hospital,5,Synthetic County B,Bonde Central,Bonde Ward,Public,Operational,+254700000004,bonde@example.invalid,24 hours,Emergency|Surgery|Intensive care|Radiology|Oncology|Mental health
+900005,Kivuli Medical Clinic,Medical Clinic,2,Synthetic County B,Kivuli,Kivuli Ward,Private,Operational,+254700000005,kivuli@example.invalid,Mon-Sat 09:00-18:00,Outpatient|Laboratory
+900006,Pwani Health Centre,Health Centre,3,Synthetic County B,Pwani South,Pwani Ward,Public,Operational,+254700000006,pwani@example.invalid,Mon-Fri 08:00-17:00,Outpatient|Maternity|HIV care
+900007,Rafiki Sub-County Hospital,Sub-County Hospital,4,Synthetic County C,Rafiki,Rafiki Ward,Public,Operational,+254700000007,rafiki@example.invalid,24 hours,Emergency|Surgery|Maternity|Paediatrics|Laboratory
+900008,Nyota National Referral Hospital,National Referral Hospital,6,Synthetic County C,Nyota Metro,Nyota Ward,Public,Operational,+254700000008,nyota@example.invalid,24 hours,Emergency|Neurosurgery|Cardiology|Intensive care|Oncology|Renal dialysis
+900009,Jua Dispensary,Dispensary,2,Synthetic County C,Jua East,Jua Ward,Public,Operational,+254700000009,jua@example.invalid,Mon-Fri 08:00-16:00,Outpatient|Immunisation
+900010,Baraka Health Centre,Health Centre,3,Synthetic County A,Baraka,Baraka Ward,Faith-based,Operational,+254700000010,baraka@example.invalid,Mon-Sat 08:00-17:00,Outpatient|Maternity|Laboratory

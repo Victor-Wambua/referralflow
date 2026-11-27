@@ -1,0 +1,100 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "urn:referralflow:schema:ServiceRequest",
+ "type": "object",
+ "required": [
+  "resourceType",
+  "id",
+  "meta",
+  "status",
+  "intent",
+  "subject",
+  "requester",
+  "performer",
+  "priority",
+  "authoredOn"
+ ],
+ "properties": {
+  "resourceType": {
+   "const": "ServiceRequest"
+  },
+  "id": {
+   "$ref": "urn:referralflow:schema:common#/$defs/Id"
+  },
+  "meta": {
+   "$ref": "urn:referralflow:schema:common#/$defs/Meta"
+  },
+  "status": {
+   "enum": [
+    "draft",
+    "active",
+    "on-hold",
+    "revoked",
+    "completed",
+    "entered-in-error",
+    "unknown"
+   ]
+  },
+  "intent": {
+   "enum": [
+    "proposal",
+    "plan",
+    "directive",
+    "order"
+   ]
+  },
+  "priority": {
+   "enum": [
+    "routine",
+    "urgent",
+    "asap",
+    "stat"
+   ]
+  },
+  "subject": {
+   "type": "object",
+   "anyOf": [
+    {
+     "required": [
+      "reference"
+     ]
+    },
+    {
+     "required": [
+      "display"
+     ]
+    }
+   ]
+  },
+  "requester": {
+   "$ref": "urn:referralflow:schema:common#/$defs/Reference"
+  },
+  "performer": {
+   "type": "array",
+   "minItems": 1,
+   "items": {
+    "$ref": "urn:referralflow:schema:common#/$defs/Reference"
+   }
+  },
+  "authoredOn": {
+   "$ref": "urn:referralflow:schema:common#/$defs/DateTime"
+  },
+  "reasonCode": {
+   "type": "array",
+   "minItems": 1,
+   "items": {
+    "$ref": "urn:referralflow:schema:common#/$defs/CodeableConcept"
+   }
+  },
+  "note": {
+   "type": "array",
+   "minItems": 0,
+   "items": {
+    "type": "object",
+    "required": [
+     "text"
+    ]
+   }
+  }
+ }
+}

@@ -1,0 +1,74 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "urn:referralflow:schema:Task",
+ "type": "object",
+ "required": [
+  "resourceType",
+  "id",
+  "meta",
+  "status",
+  "intent",
+  "focus",
+  "owner",
+  "requester",
+  "businessStatus"
+ ],
+ "properties": {
+  "resourceType": {
+   "const": "Task"
+  },
+  "id": {
+   "$ref": "urn:referralflow:schema:common#/$defs/Id"
+  },
+  "meta": {
+   "$ref": "urn:referralflow:schema:common#/$defs/Meta"
+  },
+  "status": {
+   "enum": [
+    "draft",
+    "requested",
+    "received",
+    "accepted",
+    "rejected",
+    "ready",
+    "cancelled",
+    "in-progress",
+    "on-hold",
+    "failed",
+    "completed",
+    "entered-in-error"
+   ]
+  },
+  "intent": {
+   "enum": [
+    "unknown",
+    "proposal",
+    "plan",
+    "order",
+    "original-order",
+    "reflex-order",
+    "filler-order",
+    "instance-order",
+    "option"
+   ]
+  },
+  "businessStatus": {
+   "$ref": "urn:referralflow:schema:common#/$defs/CodeableConcept"
+  },
+  "focus": {
+   "$ref": "urn:referralflow:schema:common#/$defs/Reference"
+  },
+  "owner": {
+   "$ref": "urn:referralflow:schema:common#/$defs/Reference"
+  },
+  "requester": {
+   "$ref": "urn:referralflow:schema:common#/$defs/Reference"
+  },
+  "authoredOn": {
+   "$ref": "urn:referralflow:schema:common#/$defs/DateTime"
+  },
+  "lastModified": {
+   "$ref": "urn:referralflow:schema:common#/$defs/DateTime"
+  }
+ }
+}

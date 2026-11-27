@@ -1,0 +1,80 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "urn:referralflow:schema:DocumentReference",
+ "type": "object",
+ "required": [
+  "resourceType",
+  "id",
+  "meta",
+  "status",
+  "subject",
+  "content"
+ ],
+ "properties": {
+  "resourceType": {
+   "const": "DocumentReference"
+  },
+  "id": {
+   "$ref": "urn:referralflow:schema:common#/$defs/Id"
+  },
+  "meta": {
+   "$ref": "urn:referralflow:schema:common#/$defs/Meta"
+  },
+  "status": {
+   "enum": [
+    "current",
+    "superseded",
+    "entered-in-error"
+   ]
+  },
+  "subject": {
+   "type": "object",
+   "anyOf": [
+    {
+     "required": [
+      "reference"
+     ]
+    },
+    {
+     "required": [
+      "display"
+     ]
+    }
+   ]
+  },
+  "content": {
+   "type": "array",
+   "minItems": 1,
+   "items": {
+    "type": "object",
+    "required": [
+     "attachment"
+    ],
+    "properties": {
+     "attachment": {
+      "type": "object",
+      "required": [
+       "contentType",
+       "url",
+       "size",
+       "hash"
+      ],
+      "properties": {
+       "contentType": {
+        "enum": [
+         "application/pdf",
+         "image/jpeg",
+         "image/png"
+        ]
+       },
+       "size": {
+        "type": "integer",
+        "minimum": 1
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

@@ -1,6 +1,8 @@
-# CI for ReferralFlow. This workflow is NOT pushed anywhere: the repository is local only.
+# CI for ReferralFlow (synthetic data only; APP_ENV=local so the production guard does not trip).
 name: ci
 on: [push, pull_request]
+env:
+  APP_ENV: local
 jobs:
   php:
     runs-on: ubuntu-latest

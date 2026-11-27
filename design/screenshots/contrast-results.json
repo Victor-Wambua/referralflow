@@ -1,0 +1,359 @@
+{
+ "tokenPairs": [
+  {
+   "theme": "light",
+   "fg": "ink",
+   "bg": "paper",
+   "ratio": 14.34,
+   "min": 4.5,
+   "pass": true
+  },
+  {
+   "theme": "light",
+   "fg": "ink",
+   "bg": "surface",
+   "ratio": 15.62,
+   "min": 4.5,
+   "pass": true
+  },
+  {
+   "theme": "light",
+   "fg": "ink-2",
+   "bg": "paper",
+   "ratio": 7.61,
+   "min": 4.5,
+   "pass": true
+  },
+  {
+   "theme": "light",
+   "fg": "ink-2",
+   "bg": "surface",
+   "ratio": 8.29,
+   "min": 4.5,
+   "pass": true
+  },
+  {
+   "theme": "light",
+   "fg": "ink-2",
+   "bg": "sunken",
+   "ratio": 6.9,
+   "min": 4.5,
+   "pass": true
+  },
+  {
+   "theme": "light",
+   "fg": "on-brand",
+   "bg": "brand",
+   "ratio": 9.21,
+   "min": 4.5,
+   "pass": true
+  },
+  {
+   "theme": "light",
+   "fg": "on-brand-soft",
+   "bg": "brand-soft",
+   "ratio": 10.13,
+   "min": 4.5,
+   "pass": true
+  },
+  {
+   "theme": "light",
+   "fg": "brand",
+   "bg": "surface",
+   "ratio": 9.21,
+   "min": 4.5,
+   "pass": true
+  },
+  {
+   "theme": "light",
+   "fg": "brand",
+   "bg": "paper",
+   "ratio": 8.45,
+   "min": 4.5,
+   "pass": true
+  },
+  {
+   "theme": "light",
+   "fg": "ok",
+   "bg": "ok-soft",
+   "ratio": 6.08,
+   "min": 4.5,
+   "pass": true
+  },
+  {
+   "theme": "light",
+   "fg": "warn",
+   "bg": "warn-soft",
+   "ratio": 6.19,
+   "min": 4.5,
+   "pass": true
+  },
+  {
+   "theme": "light",
+   "fg": "bad",
+   "bg": "bad-soft",
+   "ratio": 5.88,
+   "min": 4.5,
+   "pass": true
+  },
+  {
+   "theme": "light",
+   "fg": "info",
+   "bg": "info-soft",
+   "ratio": 6.24,
+   "min": 4.5,
+   "pass": true
+  },
+  {
+   "theme": "light",
+   "fg": "ok",
+   "bg": "surface",
+   "ratio": 7.23,
+   "min": 4.5,
+   "pass": true
+  },
+  {
+   "theme": "light",
+   "fg": "bad",
+   "bg": "surface",
+   "ratio": 7.29,
+   "min": 4.5,
+   "pass": true
+  },
+  {
+   "theme": "light",
+   "fg": "line-strong",
+   "bg": "surface",
+   "ratio": 4.5,
+   "min": 3,
+   "pass": true
+  },
+  {
+   "theme": "light",
+   "fg": "focus",
+   "bg": "surface",
+   "ratio": 9.21,
+   "min": 3,
+   "pass": true
+  },
+  {
+   "theme": "light",
+   "fg": "focus",
+   "bg": "paper",
+   "ratio": 8.45,
+   "min": 3,
+   "pass": true
+  },
+  {
+   "theme": "light",
+   "fg": "brand",
+   "bg": "brand-soft",
+   "ratio": 7.56,
+   "min": 3,
+   "pass": true
+  },
+  {
+   "theme": "light",
+   "fg": "chart-a",
+   "bg": "surface",
+   "ratio": 9.21,
+   "min": 3,
+   "pass": true
+  },
+  {
+   "theme": "light",
+   "fg": "chart-b",
+   "bg": "surface",
+   "ratio": 4.34,
+   "min": 3,
+   "pass": true
+  },
+  {
+   "theme": "light",
+   "fg": "chart-c",
+   "bg": "surface",
+   "ratio": 4.87,
+   "min": 3,
+   "pass": true
+  },
+  {
+   "theme": "dark",
+   "fg": "ink",
+   "bg": "paper",
+   "ratio": 14.95,
+   "min": 4.5,
+   "pass": true
+  },
+  {
+   "theme": "dark",
+   "fg": "ink",
+   "bg": "surface",
+   "ratio": 13.33,
+   "min": 4.5,
+   "pass": true
+  },
+  {
+   "theme": "dark",
+   "fg": "ink-2",
+   "bg": "paper",
+   "ratio": 8.87,
+   "min": 4.5,
+   "pass": true
+  },
+  {
+   "theme": "dark",
+   "fg": "ink-2",
+   "bg": "surface",
+   "ratio": 7.91,
+   "min": 4.5,
+   "pass": true
+  },
+  {
+   "theme": "dark",
+   "fg": "ink-2",
+   "bg": "sunken",
+   "ratio": 9.25,
+   "min": 4.5,
+   "pass": true
+  },
+  {
+   "theme": "dark",
+   "fg": "on-brand",
+   "bg": "brand",
+   "ratio": 8.54,
+   "min": 4.5,
+   "pass": true
+  },
+  {
+   "theme": "dark",
+   "fg": "on-brand-soft",
+   "bg": "brand-soft",
+   "ratio": 9.38,
+   "min": 4.5,
+   "pass": true
+  },
+  {
+   "theme": "dark",
+   "fg": "brand",
+   "bg": "surface",
+   "ratio": 7.9,
+   "min": 4.5,
+   "pass": true
+  },
+  {
+   "theme": "dark",
+   "fg": "brand",
+   "bg": "paper",
+   "ratio": 8.86,
+   "min": 4.5,
+   "pass": true
+  },
+  {
+   "theme": "dark",
+   "fg": "ok",
+   "bg": "ok-soft",
+   "ratio": 7.23,
+   "min": 4.5,
+   "pass": true
+  },
+  {
+   "theme": "dark",
+   "fg": "warn",
+   "bg": "warn-soft",
+   "ratio": 7.72,
+   "min": 4.5,
+   "pass": true
+  },
+  {
+   "theme": "dark",
+   "fg": "bad",
+   "bg": "bad-soft",
+   "ratio": 7.28,
+   "min": 4.5,
+   "pass": true
+  },
+  {
+   "theme": "dark",
+   "fg": "info",
+   "bg": "info-soft",
+   "ratio": 7.63,
+   "min": 4.5,
+   "pass": true
+  },
+  {
+   "theme": "dark",
+   "fg": "ok",
+   "bg": "surface",
+   "ratio": 9.33,
+   "min": 4.5,
+   "pass": true
+  },
+  {
+   "theme": "dark",
+   "fg": "bad",
+   "bg": "surface",
+   "ratio": 8.35,
+   "min": 4.5,
+   "pass": true
+  },
+  {
+   "theme": "dark",
+   "fg": "line-strong",
+   "bg": "surface",
+   "ratio": 4.46,
+   "min": 3,
+   "pass": true
+  },
+  {
+   "theme": "dark",
+   "fg": "focus",
+   "bg": "surface",
+   "ratio": 10.1,
+   "min": 3,
+   "pass": true
+  },
+  {
+   "theme": "dark",
+   "fg": "focus",
+   "bg": "paper",
+   "ratio": 11.33,
+   "min": 3,
+   "pass": true
+  },
+  {
+   "theme": "dark",
+   "fg": "brand",
+   "bg": "brand-soft",
+   "ratio": 6.48,
+   "min": 3,
+   "pass": true
+  },
+  {
+   "theme": "dark",
+   "fg": "chart-a",
+   "bg": "surface",
+   "ratio": 7.9,
+   "min": 3,
+   "pass": true
+  },
+  {
+   "theme": "dark",
+   "fg": "chart-b",
+   "bg": "surface",
+   "ratio": 7.31,
+   "min": 3,
+   "pass": true
+  },
+  {
+   "theme": "dark",
+   "fg": "chart-c",
+   "bg": "surface",
+   "ratio": 8.26,
+   "min": 3,
+   "pass": true
+  }
+ ],
+ "tokenFailures": 0,
+ "domSampled": 3018,
+ "domFailures": []
+}

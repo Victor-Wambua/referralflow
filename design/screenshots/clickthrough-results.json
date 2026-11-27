@@ -1,0 +1,487 @@
+{
+ "steps": [
+  {
+   "step": "login validation error",
+   "pass": true
+  },
+  {
+   "step": "login+MFA reaches home",
+   "pass": true
+  },
+  {
+   "step": "title has no PHI",
+   "pass": true
+  },
+  {
+   "step": "wizard step1 validation",
+   "pass": true
+  },
+  {
+   "step": "step2 reason validation",
+   "pass": true
+  },
+  {
+   "step": "stale facility warning dialog",
+   "pass": true
+  },
+  {
+   "step": "consent validation",
+   "pass": true
+  },
+  {
+   "step": "sent success",
+   "pass": true
+  },
+  {
+   "step": "offline queues",
+   "pass": true
+  },
+  {
+   "step": "sync empties outbox",
+   "pass": true
+  },
+  {
+   "step": "masked by default",
+   "pass": true
+  },
+  {
+   "step": "reveal requires reason",
+   "pass": true
+  },
+  {
+   "step": "reveal shows name",
+   "pass": true
+  },
+  {
+   "step": "msg validation",
+   "pass": true
+  },
+  {
+   "step": "non-party locked",
+   "pass": true
+  },
+  {
+   "step": "bg needs reason",
+   "pass": true
+  },
+  {
+   "step": "access log shows break-glass",
+   "pass": true
+  },
+  {
+   "step": "directory search",
+   "pass": true
+  },
+  {
+   "step": "directory empty",
+   "pass": true
+  },
+  {
+   "step": "clinician blocked from dashboard",
+   "pass": true
+  },
+  {
+   "step": "coordinator inbox",
+   "pass": true
+  },
+  {
+   "step": "status Accepted",
+   "pass": true
+  },
+  {
+   "step": "schedule validation",
+   "pass": true
+  },
+  {
+   "step": "scheduled",
+   "pass": true
+  },
+  {
+   "step": "decline needs reason",
+   "pass": true
+  },
+  {
+   "step": "declined",
+   "pass": true
+  },
+  {
+   "step": "manager lands on dashboard",
+   "pass": true
+  },
+  {
+   "step": "invite validation",
+   "pass": true
+  },
+  {
+   "step": "retention validation",
+   "pass": true
+  },
+  {
+   "step": "timeout signs out",
+   "pass": true
+  },
+  {
+   "step": "login validation error",
+   "pass": true
+  },
+  {
+   "step": "login+MFA reaches home",
+   "pass": true
+  },
+  {
+   "step": "title has no PHI",
+   "pass": true
+  },
+  {
+   "step": "wizard step1 validation",
+   "pass": true
+  },
+  {
+   "step": "step2 reason validation",
+   "pass": true
+  },
+  {
+   "step": "stale facility warning dialog",
+   "pass": true
+  },
+  {
+   "step": "consent validation",
+   "pass": true
+  },
+  {
+   "step": "sent success",
+   "pass": true
+  },
+  {
+   "step": "offline queues",
+   "pass": true
+  },
+  {
+   "step": "sync empties outbox",
+   "pass": true
+  },
+  {
+   "step": "masked by default",
+   "pass": true
+  },
+  {
+   "step": "reveal requires reason",
+   "pass": true
+  },
+  {
+   "step": "reveal shows name",
+   "pass": true
+  },
+  {
+   "step": "msg validation",
+   "pass": true
+  },
+  {
+   "step": "non-party locked",
+   "pass": true
+  },
+  {
+   "step": "bg needs reason",
+   "pass": true
+  },
+  {
+   "step": "access log shows break-glass",
+   "pass": true
+  },
+  {
+   "step": "directory search",
+   "pass": true
+  },
+  {
+   "step": "directory empty",
+   "pass": true
+  },
+  {
+   "step": "clinician blocked from dashboard",
+   "pass": true
+  },
+  {
+   "step": "coordinator inbox",
+   "pass": true
+  },
+  {
+   "step": "status Accepted",
+   "pass": true
+  },
+  {
+   "step": "schedule validation",
+   "pass": true
+  },
+  {
+   "step": "scheduled",
+   "pass": true
+  },
+  {
+   "step": "decline needs reason",
+   "pass": true
+  },
+  {
+   "step": "declined",
+   "pass": true
+  },
+  {
+   "step": "manager lands on dashboard",
+   "pass": true
+  },
+  {
+   "step": "invite validation",
+   "pass": true
+  },
+  {
+   "step": "retention validation",
+   "pass": true
+  },
+  {
+   "step": "timeout signs out",
+   "pass": true
+  },
+  {
+   "step": "login validation error",
+   "pass": true
+  },
+  {
+   "step": "login+MFA reaches home",
+   "pass": true
+  },
+  {
+   "step": "title has no PHI",
+   "pass": true
+  },
+  {
+   "step": "wizard step1 validation",
+   "pass": true
+  },
+  {
+   "step": "step2 reason validation",
+   "pass": true
+  },
+  {
+   "step": "stale facility warning dialog",
+   "pass": true
+  },
+  {
+   "step": "consent validation",
+   "pass": true
+  },
+  {
+   "step": "sent success",
+   "pass": true
+  },
+  {
+   "step": "offline queues",
+   "pass": true
+  },
+  {
+   "step": "sync empties outbox",
+   "pass": true
+  },
+  {
+   "step": "masked by default",
+   "pass": true
+  },
+  {
+   "step": "reveal requires reason",
+   "pass": true
+  },
+  {
+   "step": "reveal shows name",
+   "pass": true
+  },
+  {
+   "step": "msg validation",
+   "pass": true
+  },
+  {
+   "step": "non-party locked",
+   "pass": true
+  },
+  {
+   "step": "bg needs reason",
+   "pass": true
+  },
+  {
+   "step": "access log shows break-glass",
+   "pass": true
+  },
+  {
+   "step": "directory search",
+   "pass": true
+  },
+  {
+   "step": "directory empty",
+   "pass": true
+  },
+  {
+   "step": "clinician blocked from dashboard",
+   "pass": true
+  },
+  {
+   "step": "coordinator inbox",
+   "pass": true
+  },
+  {
+   "step": "status Accepted",
+   "pass": true
+  },
+  {
+   "step": "schedule validation",
+   "pass": true
+  },
+  {
+   "step": "scheduled",
+   "pass": true
+  },
+  {
+   "step": "decline needs reason",
+   "pass": true
+  },
+  {
+   "step": "declined",
+   "pass": true
+  },
+  {
+   "step": "manager lands on dashboard",
+   "pass": true
+  },
+  {
+   "step": "invite validation",
+   "pass": true
+  },
+  {
+   "step": "retention validation",
+   "pass": true
+  },
+  {
+   "step": "timeout signs out",
+   "pass": true
+  },
+  {
+   "step": "login validation error",
+   "pass": true
+  },
+  {
+   "step": "login+MFA reaches home",
+   "pass": true
+  },
+  {
+   "step": "title has no PHI",
+   "pass": true
+  },
+  {
+   "step": "wizard step1 validation",
+   "pass": true
+  },
+  {
+   "step": "step2 reason validation",
+   "pass": true
+  },
+  {
+   "step": "stale facility warning dialog",
+   "pass": true
+  },
+  {
+   "step": "consent validation",
+   "pass": true
+  },
+  {
+   "step": "sent success",
+   "pass": true
+  },
+  {
+   "step": "offline queues",
+   "pass": true
+  },
+  {
+   "step": "sync empties outbox",
+   "pass": true
+  },
+  {
+   "step": "masked by default",
+   "pass": true
+  },
+  {
+   "step": "reveal requires reason",
+   "pass": true
+  },
+  {
+   "step": "reveal shows name",
+   "pass": true
+  },
+  {
+   "step": "msg validation",
+   "pass": true
+  },
+  {
+   "step": "non-party locked",
+   "pass": true
+  },
+  {
+   "step": "bg needs reason",
+   "pass": true
+  },
+  {
+   "step": "access log shows break-glass",
+   "pass": true
+  },
+  {
+   "step": "directory search",
+   "pass": true
+  },
+  {
+   "step": "directory empty",
+   "pass": true
+  },
+  {
+   "step": "clinician blocked from dashboard",
+   "pass": true
+  },
+  {
+   "step": "coordinator inbox",
+   "pass": true
+  },
+  {
+   "step": "status Accepted",
+   "pass": true
+  },
+  {
+   "step": "schedule validation",
+   "pass": true
+  },
+  {
+   "step": "scheduled",
+   "pass": true
+  },
+  {
+   "step": "decline needs reason",
+   "pass": true
+  },
+  {
+   "step": "declined",
+   "pass": true
+  },
+  {
+   "step": "manager lands on dashboard",
+   "pass": true
+  },
+  {
+   "step": "invite validation",
+   "pass": true
+  },
+  {
+   "step": "retention validation",
+   "pass": true
+  },
+  {
+   "step": "timeout signs out",
+   "pass": true
+  }
+ ],
+ "errors": [],
+ "passed": 120,
+ "failed": 0
+}

@@ -20,7 +20,7 @@
 @endif
 
 <form id="wizard" method="post" action="{{ route('referrals.store') }}" enctype="multipart/form-data" novalidate
-      data-step-word="{{ __('Step') }}" data-yes="{{ __('Yes') }}" data-no="{{ __('No') }}" data-draft-saved="{{ __('Draft saved on this device without patient details.') }}" data-draft-resumed="{{ __('Draft restored.') }}">
+      data-step-word="{{ __('Step') }}" data-step-of="{{ __('of') }}" data-yes="{{ __('Yes') }}" data-no="{{ __('No') }}" data-draft-saved="{{ __('Draft saved on this device without patient details.') }}" data-draft-resumed="{{ __('Draft restored.') }}">
 @csrf
 <input type="hidden" name="stale_confirmed" id="stale_confirmed" value="{{ old('stale_confirmed', '0') }}">
 

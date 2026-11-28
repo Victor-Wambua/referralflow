@@ -145,3 +145,54 @@ dialog::backdrop{background:rgba(10,14,22,.6)}
 [hidden]{display:none!important}
 .strip{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px;font-size:.85rem;color:var(--ink-2)}
 .back{display:inline-block;margin-bottom:6px}
+
+/* ---- UX review round 2 ---- */
+.code-sm{font:.78rem var(--font-mono);color:var(--ink-2);word-break:break-all}
+.stack tr.alert{background:var(--bad-soft)}
+.act{font-weight:650}
+@media (max-width:900px){
+ .stack thead{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+ .stack,.stack tbody,.stack tr,.stack td{display:block}
+ .card.tw{padding:8px;background:none;border:0}
+ .stack tr{background:var(--surface);border:1px solid var(--rule);border-radius:14px;padding:8px 14px;margin-bottom:10px}
+ .stack tr.alert{background:var(--bad-soft)}
+ .stack td{display:flex;gap:12px;border:0;padding:5px 0;justify-content:space-between;text-align:right;overflow-wrap:anywhere}
+ .stack td::before{content:attr(data-label);flex:0 0 38%;max-width:38%;text-align:left;color:var(--ink-2);font-weight:650;font-size:.88rem}
+ .stack td.fac{font-weight:700;display:block;text-align:left;border-bottom:1px solid var(--rule);margin-bottom:4px;padding-bottom:8px}
+ .stack td.fac::before{content:none}
+ .stack td[colspan]{display:block;text-align:left}
+ .stack td:empty{display:none}
+ .stack td.actc{display:block;text-align:left}
+ .stack td.actc::before{display:block;max-width:none;margin-bottom:2px}
+ .stack td[colspan]::before{content:none}
+}
+.btn.is-busy{opacity:.8;cursor:progress}
+.btn.is-busy::after{content:"";width:14px;height:14px;border-radius:50%;border:2px solid currentColor;border-right-color:transparent;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.btn.is-busy::after{animation:none;border-right-color:currentColor}}
+#offline-banner:focus{outline:3px solid var(--focus)}
+
+/* Print: reports and logs print as clean documents */
+@media print{
+ :root{--paper:#fff;--surface:#fff;--ink:#000;--ink-2:#333}
+ body{background:#fff;color:#000;font-size:11pt}
+ .side,.tabs,.strip,.skip,.sticky-act,#offline-banner,#idle-dialog,.pager,.btn,.mobilebar,.langsw,form[data-signout],.filter{display:none!important}
+ .shell{display:block}.main{padding:0;max-width:none}
+ .demo{border:1px solid #000;background:#fff;color:#000;font-weight:700}
+ .card,.stat{box-shadow:none;break-inside:avoid;border:1px solid #999}
+ a{color:#000;text-decoration:none}
+ .tw{overflow:visible}
+ .g4.keep2{grid-template-columns:repeat(4,1fr)}.g2{grid-template-columns:repeat(2,1fr)}
+ table{font-size:9.5pt}th,td{padding:4px 6px}thead{display:table-header-group}tr{break-inside:avoid}
+ .stack thead{position:static;width:auto;height:auto;overflow:visible}
+ .stack{display:table}.stack tbody{display:table-row-group}
+ .stack tr{display:table-row;border:0;padding:0;margin:0;background:none}
+ .stack td,.stack td.fac,.stack td[colspan]{display:table-cell;text-align:left;padding:4px 6px;border:0;border-bottom:1px solid #999;margin:0}
+ .stack td::before{content:none}
+ .card.tw{border:1px solid #999;padding:8px}
+ .bar,.bar i,.chart div{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ .pill{border:1px solid #000;background:#fff!important;color:#000!important}
+ dialog{display:none!important}
+}
+@media (max-width:900px){.stack td.fac a{font-weight:700}.stack td form.inline{display:inline-block;margin:2px 0}.stack td[data-label="Actions"],.stack td:last-child:has(form){display:block;text-align:left}}
+@media (max-width:900px){.stack td:last-child:has(form)::before{display:block;max-width:none;margin-bottom:4px}}

@@ -65,7 +65,7 @@ if (wiz) {
         cur = Math.max(0, Math.min(steps.length - 1, i));
         steps.forEach((s, k) => { s.hidden = k !== cur; });
         bars.forEach((b, k) => b.classList.toggle('on', k <= cur));
-        $('#step-label').textContent = `${wiz.dataset.stepWord} ${cur + 1} / ${steps.length}`;
+        $('#step-label').textContent = `${wiz.dataset.stepWord} ${cur + 1} ${wiz.dataset.stepOf || '/'} ${steps.length}`;
         if (shown) { steps[cur].querySelector('h2')?.focus?.({ preventScroll: true }); window.scrollTo({ top: 0 }); }
         live($('#step-label').textContent);
         shown = true;
@@ -83,6 +83,12 @@ if (wiz) {
         });
         return ok;
     };
+    // Enter in a single-line field moves to the next step instead of submitting the form early (the first submit button is a draft save)
+    wiz.addEventListener('keydown', (e) => {
+        if (e.key !== 'Enter' || e.target.tagName !== 'INPUT' || ['submit', 'button', 'checkbox', 'radio', 'file'].includes(e.target.type)) return;
+        e.preventDefault();
+        steps[cur].querySelector('[data-next]')?.click();
+    });
     $$('[data-next]', wiz).forEach((b) => b.addEventListener('click', () => { if (valid()) show(cur + 1); }));
     $$('[data-prev]', wiz).forEach((b) => b.addEventListener('click', () => show(cur - 1)));
     // jump to the first step with a server error
@@ -107,6 +113,10 @@ if (wiz) {
         $('#stale_confirmed').value = '0';
         if ((st === 'stale' || st === 'unverified') && staleDlg) { $('#stale-name').textContent = r.dataset.name; staleDlg.showModal(); }
     }));
+    // Escape (or any close that is not "I have confirmed") must not leave an unconfirmed stale facility selected
+    staleDlg?.addEventListener('close', () => {
+        if ($('#stale_confirmed').value !== '1') $$('input[name=receiving_facility_id]', wiz).forEach((r) => { if (r.dataset.state === 'stale' || r.dataset.state === 'unverified') r.checked = false; });
+    });
     $('#stale-yes')?.addEventListener('click', () => { $('#stale_confirmed').value = '1'; staleDlg.close(); });
     $('#stale-no')?.addEventListener('click', () => { $$('input[name=receiving_facility_id]', wiz).forEach((r) => (r.checked = false)); staleDlg.close(); });
 
@@ -203,3 +213,21 @@ if (facFilter) {
         none.hidden = n > 0;
     });
 }
+
+// Loading and offline feedback for every POST form: block double submits, show a busy state, and explain when offline.
+const body = document.body;
+document.addEventListener('submit', (e) => {
+    const f = e.target;
+    if (!(f instanceof HTMLFormElement) || f.method !== 'post') return;
+    if (!navigator.onLine) { e.preventDefault(); live(body.dataset.msgOffline || ''); const b = $('#offline-banner'); if (b) { b.hidden = false; } return; }
+    if (f.dataset.busy === '1') { e.preventDefault(); return; }
+    f.dataset.busy = '1';
+    const btn = e.submitter || f.querySelector('button:not([type=button])');
+    if (btn) { btn.classList.add('is-busy'); btn.setAttribute('aria-busy', 'true'); }
+    live(body.dataset.msgBusy || '');
+});
+addEventListener('pageshow', (e) => {
+    if (!e.persisted) return;
+    $$('form[data-busy]').forEach((f) => { f.dataset.busy = ''; });
+    $$('.is-busy').forEach((b) => { b.classList.toggle('is-busy', false); b.setAttribute('aria-busy', 'false'); });
+});

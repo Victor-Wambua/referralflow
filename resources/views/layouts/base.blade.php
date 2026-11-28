@@ -10,9 +10,9 @@
 <link rel="manifest" href="/manifest.webmanifest">
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body @auth data-idle="{{ config('referralflow.session.idle_minutes') * 60 }}" data-warn="{{ config('referralflow.session.warn_seconds') }}" @endauth>
+<body data-msg-busy="{{ __('Working. Please wait.') }}" data-msg-offline="{{ __('You are offline. Nothing was sent. Reconnect and try again.') }}" @auth data-idle="{{ config('referralflow.session.idle_minutes') * 60 }}" data-warn="{{ config('referralflow.session.warn_seconds') }}" @endauth>
 <a class="skip" href="#main">{{ __('Skip to content') }}</a>
-<div class="demo" role="note">{{ __('Synthetic demonstration data. Not for real patients.') }}@if(\App\Security\ProductionGuard::flagged()) <strong> · {{ __('NOT CLEARED FOR REAL PATIENT DATA') }}</strong>@endif</div>
+<div class="demo" role="region" aria-label="{{ __('Demonstration data notice') }}">{{ __('Synthetic demonstration data. Not for real patients.') }}@if(\App\Security\ProductionGuard::flagged()) <strong> · {{ __('NOT CLEARED FOR REAL PATIENT DATA') }}</strong>@endif</div>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
 <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h14V10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>

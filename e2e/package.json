@@ -1,1 +1,1 @@
-{"name":"referralflow-e2e","private":true,"type":"module","dependencies":{"playwright":"^1.65.1"}}
+{"name":"referralflow-e2e","private":true,"type":"module","dependencies":{"playwright":"^1.65.1"},"devDependencies":{"axe-core":"^4.14.1"}}

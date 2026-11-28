@@ -1,5 +1,5 @@
 {
- "ran_at": "2026-11-27T12:48:16.853Z",
+ "ran_at": "2026-11-28T10:34:16.990Z",
  "pass": 55,
  "fail": 0,
  "total": 55,
@@ -267,7 +267,7 @@
   {
    "name": "service worker registers and caches the offline shell",
    "ok": true,
-   "detail": "[\"/manifest.webmanifest\",\"/mark.svg\",\"/offline\",\"/build/assets/app-CdZRTqfK.css\",\"/build/assets/app-CYtSVBeZ.js\"]"
+   "detail": "[\"/mark.svg\",\"/manifest.webmanifest\",\"/offline\",\"/build/assets/app-DcpHOYX5.css\",\"/build/assets/app-CF6_Yxrm.js\"]"
   },
   {
    "name": "service worker caches no authenticated page",

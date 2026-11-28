@@ -32,7 +32,7 @@ jobs:
         env: { APP_ENV: local }
       - run: npm ci && npm run build
       - run: cp .env.example .env && php artisan key:generate
-      - run: cd e2e && npm ci && npx playwright install --with-deps chromium && node run.mjs
+      - run: cd e2e && npm ci && npx playwright install --with-deps chromium && node run.mjs && node a11y.mjs && node keyboard.mjs && node print-perf.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with: { name: e2e-screenshots, path: docs/screenshots }
